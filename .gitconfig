@@ -1,0 +1,54 @@
+[color]
+    ui = auto
+[core]
+    editor = vim
+    autocrlf = input
+    fileMode = false
+[merge]
+    tool = diffmerge
+    ff = true
+[alias]
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+    df = difftool -y
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    mergebranch = merge --no-ff
+
+    y = diff "@{yesterday}"
+    ls = log --oneline --decorate
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
+    lgn = "!f() { git log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=relative $@ | git name-rev --stdin --name-only ; } ; f"
+    ahead = log origin/master..HEAD --oneline
+    stu = "!sh -c \"git fetch origin; git status\""
+    mg = merge --ff-only
+    rmall = !sh -c \"git diff --diff-filter=D --name-only -z | xargs -0 git rm\"
+    new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+    sortdiff = !sh -c 'git diff "$@" | grep "^[+-]" | sort --key=1.2 | uniq -u -s1'
+    pack = !sh -c 'git archive --format=tar.gz -o git log $1@{1}..$1@{0} "$@"'
+    changes = log --name-status --oneline live/master..HEAD
+    cat = !sh -c \"git show $2:$1\"
+    ap = apply --index
+    pa = format-patch --stdout
+    update-library = merge --squash -s subtree --no-commit
+[push]
+    default = upstream
+[branch]
+    # remove if git flow
+    autosetuprebase = always
+[diff]
+    guitool = kdiff3
+    tool = kdiff3
+    renames = copies
+[mergetool]
+    keepBackup = false
+[difftool "diffmerge"]
+    cmd = diffmerge $LOCAL $REMOTE
+[mergetool "diffmerge"]
+    cmd = diffmerge --merge -t1=\"Existing file in tree\" -t2=\"Base and result file\" -t3=\"New changes to apply\" --result=$MERGED $LOCAL $BASE $REMOTE
+[difftool "kdiff3"]
+    cmd = /usr/bin/kdiff3 $BASE $LOCAL $REMOTE -o $MERGED
+    keepBackup = false
+    trustExitCode = false
