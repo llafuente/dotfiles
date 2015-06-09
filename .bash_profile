@@ -1,6 +1,9 @@
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH";
 
+export INSTANCE_ID="lab01"
+
+PS1="[\[\033[01;31m\]${LOGNAME}\[\033[00m\]@\[\033[01;32m\]${INSTANCE_NAME}\[\033[00m\] \[\033[01;36m\]\w\[\033[00m\]]"
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob;
@@ -79,6 +82,11 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+# readable
+
+alias df='df -h'
+alias du='du --si'
+
 # comment errors
 alias tailf='tail -f'
 alias tail-f='tail -f'
@@ -92,3 +100,7 @@ alias vshh='vagrant ssh'
 # node
 
 alias g='grunt'
+
+# php
+
+alias killphps='pgrep php | xargs kill -9'
