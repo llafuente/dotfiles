@@ -11,7 +11,8 @@
     co = checkout
     br = branch
     ci = commit
-    st = status
+    st = status -s # short status
+    fst = status # full status
     df = difftool -y
     unstage = reset HEAD --
     last = log -1 HEAD
@@ -19,6 +20,7 @@
 
     y = diff "@{yesterday}"
     ls = log --oneline --decorate
+    lls = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
     lgn = "!f() { git log --graph --pretty=format:'%Cred%H%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=relative $@ | git name-rev --stdin --name-only ; } ; f"
     ahead = log origin/master..HEAD --oneline
@@ -36,8 +38,8 @@
 [push]
     default = upstream
 [branch]
-    # remove if git flow
-    autosetuprebase = always
+    # use 'autosetuprebase = always' if not git flow
+    autosetuprebase = never
 [diff]
     guitool = kdiff3
     tool = kdiff3
