@@ -14,12 +14,17 @@ shopt -s histappend;
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell;
 
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
 # Enable some Bash 4 features when possible:
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
 # * Recursive globbing, e.g. `echo **/*.txt`
 for option in autocd globstar; do
 	shopt -s "$option" 2> /dev/null;
 done;
+shopt -s globstar
 
 # No ttyctl, so we need to save and then restore terminal settings
 # maybe: bind -r '\C-s'
@@ -87,7 +92,7 @@ alias egrep='egrep --color=auto'
 alias df='df -h'
 alias du='du --si'
 
-# comment errors
+# common errors
 alias tailf='tail -f'
 alias tail-f='tail -f'
 alias les='less'
@@ -104,3 +109,11 @@ alias g='grunt'
 # php
 
 alias killphps='pgrep php | xargs kill -9'
+
+# bash completion staff
+if [ -s /etc/bash_completion ] && ! shopt -oq posix; then
+	source /etc/bash_completion
+fi
+if [ -s /etc/bash_completion.d/git ]; then
+	source /etc/bash_completion.d/git
+fi
