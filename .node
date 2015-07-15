@@ -1,0 +1,6 @@
+# this maybe not desired in your system.
+export NPM_PACKAGES="${HOME}/.npm-packages"
+
+export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
+PATH="$NPM_PACKAGES/bin:/usr/local/bin:$PATH"
+NODE_ENV=development

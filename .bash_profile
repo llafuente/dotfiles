@@ -8,6 +8,14 @@ PS1="[\[\033[01;31m\]${LOGNAME}\[\033[00m\]@\[\033[01;32m\]${INSTANCE_NAME}\[\03
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob;
 
+# history size & no duplicates
+export HISTCONTROL=ignoredups:erasedups
+export HISTSIZE=100000
+export HISTFILESIZE=$HISTSIZE
+
+# Save and reload the history after each command finishes
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend;
 

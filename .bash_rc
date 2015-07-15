@@ -1,1 +1,4 @@
+source .node
+PATH=$PATH:$HOME/bin
+
 [ -n "$PS1" ] && source ~/.bash_profile;
