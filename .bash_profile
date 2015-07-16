@@ -1,17 +1,18 @@
-# Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH";
-
-export INSTANCE_ID="lab01"
-
+#normal promnt
 PS1="[\[\033[01;31m\]${LOGNAME}\[\033[00m\]@\[\033[01;32m\]${INSTANCE_NAME}\[\033[00m\] \[\033[01;36m\]\w\[\033[00m\]]"
+
+# bash -x promnt
+PS4='+ \011\e[1;30m\t\011\e[1;34m${BASH_SOURCE}\e[0m:\e[1;36m${LINENO}\e[0m \011 ${FUNCNAME[0]:+\e[0;35m${FUNCNAME[0]}\e[1;30m()\e[0m:\011\011 }'
+
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob;
 
-# history size & no duplicates
+# history size & no duplicates & dates
 export HISTCONTROL=ignoredups:erasedups
 export HISTSIZE=100000
 export HISTFILESIZE=$HISTSIZE
+export HISTTIMEFORMAT='%F %T '
 
 # Save and reload the history after each command finishes
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
@@ -80,7 +81,8 @@ mktar() { tar cvf  "${1%%/}.tar"     "${1%%/}/"; }
 mktgz() { tar cvzf "${1%%/}.tar.gz"  "${1%%/}/"; }
 mktbz() { tar cvjf "${1%%/}.tar.bz2" "${1%%/}/"; }
 
-alias untar='tar -xvzf'
+
+alias r='reset'
 
 # list
 
