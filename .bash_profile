@@ -107,10 +107,13 @@ alias tailf='tail -f'
 alias tail-f='tail -f'
 alias les='less'
 alias shh='ssh'
+alias gerp='grep'
 
 # vagrant
 
-alias vshh='vagrant ssh'
+alias v='vagrant'
+alias vup='vagrant up'
+alias vssh='vagrant ssh'
 
 # node
 
