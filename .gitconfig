@@ -44,10 +44,23 @@
     ap = apply --index
     pa = format-patch --stdout
     update-library = merge --squash -s subtree --no-commit
+
+    # git flow alias
+    fs = flow feature start --fetch
+    ff = "!f() { git flow feature finish --fetch $1 && git push ; } ; f"
+    fc = flow feature checkout
+    ft = flow feature track
+    fp = flow feature pull
+    fpp = flow feature publish
+    rs = flow release start --fetch
+    rf = "!f() { flow release finish --fetch $1 && git push && git co master && git push && git push --tags && git co develop; } ; f"
+    hs = flow hotfix start
+    hf = "!f() { flow hotfix finish --fetch $1 && git push && git co master && git push && git push --tags && git co develop; } ; f"
+
 [push]
     default = upstream
 [branch]
-    # use 'autosetuprebase = always' if not git flow
+    # 'autosetuprebase = always'
     autosetuprebase = never
 [diff]
     guitool = kdiff3

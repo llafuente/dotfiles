@@ -108,6 +108,7 @@ alias tail-f='tail -f'
 alias les='less'
 alias shh='ssh'
 alias gerp='grep'
+alias cd..='cd ..'
 
 # vagrant
 
