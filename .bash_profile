@@ -131,3 +131,6 @@ fi
 if [ -s /etc/bash_completion.d/git ]; then
 	source /etc/bash_completion.d/git
 fi
+
+# rvm
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
