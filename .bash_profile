@@ -115,6 +115,7 @@ alias cd..='cd ..'
 alias v='vagrant'
 alias vup='vagrant up'
 alias vssh='vagrant ssh'
+alias vatom='atom .; vup; vssh; cd /vagrant/'
 
 # node
 
