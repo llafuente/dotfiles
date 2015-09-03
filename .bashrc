@@ -1,5 +1,5 @@
 # common
-source ./.node
+source ~/.node
 PATH=$PATH:$HOME/bin
 PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
