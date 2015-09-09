@@ -49,6 +49,11 @@
     pa = format-patch --stdout
     update-library = merge --squash -s subtree --no-commit
 
+    # time sine last commit
+    time = "!f() { last_commit=`git log --pretty=format:'%at' -1 2> /dev/null`;  now=`date +%s`;  seconds_since_last_commit=$((now - last_commit)); MINUTES=$((seconds_since_last_commit / 60)); HOURS=$((seconds_since_last_commit/3600)); DAYS=$((seconds_since_last_commit / 86400)); SUB_HOURS=$((HOURS % 24)); SUB_MINUTES=$((MINUTES % 60)); if [ \"$HOURS\" -gt 24 ]; then echo \"(${DAYS}d${SUB_HOURS}h${SUB_MINUTES}m)\"; elif [ \"$MINUTES\" -gt 60 ]; then echo \"(${HOURS}h${SUB_MINUTES}m)\"; else echo \"(${MINUTES}m)\"; fi; }; f"
+    # time between last two commits
+    time2 = "!f() { seconds_since_last_commit=`git log --pretty=format:'%at' -2 | awk 'BEGIN {l=1; last_commit=0;}; {if(l == 1) {last_commit=$0} else {print last_commit-$0} l++;}'`; MINUTES=$((seconds_since_last_commit / 60)); HOURS=$((seconds_since_last_commit/3600)); DAYS=$((seconds_since_last_commit / 86400)); SUB_HOURS=$((HOURS % 24)); SUB_MINUTES=$((MINUTES % 60)); if [ \"$HOURS\" -gt 24 ]; then echo \"(${DAYS}d${SUB_HOURS}h${SUB_MINUTES}m)\"; elif [ \"$MINUTES\" -gt 60 ]; then echo \"(${HOURS}h${SUB_MINUTES}m)\"; else echo \"(${MINUTES}m)\"; fi; }; f"
+
     # git flow alias
     fs = flow feature start --fetch
     ff = "!f() { git flow feature finish --fetch $1 && git push ; } ; f"
