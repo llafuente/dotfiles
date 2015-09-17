@@ -109,6 +109,7 @@ alias les='less'
 alias shh='ssh'
 alias gerp='grep'
 alias cd..='cd ..'
+alias got='git'
 
 # vagrant
 
@@ -124,6 +125,11 @@ alias g='grunt'
 # php
 
 alias killphps='pgrep php | xargs kill -9'
+
+# git
+alias github-on='GIT_COMMITTER_NAME=llafuente GIT_COMMITTER_EMAIL=llafuente@noboxout.com'
+alias github-off='GIT_COMMITTER_NAME= GIT_COMMITTER_EMAIL='
+
 
 # bash completion staff
 if [ -s /etc/bash_completion ] && ! shopt -oq posix; then
