@@ -55,17 +55,62 @@
     time2 = "!f() { seconds_since_last_commit=`git log --pretty=format:'%at' -2 | awk 'BEGIN {l=1; last_commit=0;}; {if(l == 1) {last_commit=$0} else {print last_commit-$0} l++;}'`; MINUTES=$((seconds_since_last_commit / 60)); HOURS=$((seconds_since_last_commit/3600)); DAYS=$((seconds_since_last_commit / 86400)); SUB_HOURS=$((HOURS % 24)); SUB_MINUTES=$((MINUTES % 60)); if [ \"$HOURS\" -gt 24 ]; then echo \"(${DAYS}d${SUB_HOURS}h${SUB_MINUTES}m)\"; elif [ \"$MINUTES\" -gt 60 ]; then echo \"(${HOURS}h${SUB_MINUTES}m)\"; else echo \"(${MINUTES}m)\"; fi; }; f"
 
     # git flow alias
-    fs = flow feature start --fetch
-    ff = "!f() { git flow feature finish --fetch $1 && git push ; } ; f"
-    fc = flow feature checkout
-    ft = flow feature track
-    fp = flow feature pull
-    fpp = flow feature publish
-    rs = flow release start --fetch
-    rf = "!f() { flow release finish --fetch $1 && git push && git co master && git push && git push --tags && git co develop; } ; f"
-    hs = flow hotfix start
-    hf = "!f() { flow hotfix finish --fetch $1 && git push && git co master && git push && git push --tags && git co develop; } ; f"
+    # git flow alias
+    # flow feature start
+    # stash, pull, gitflow, pop
+    ffs = "!f() { \
+      STASH=`$(git status --untracked-files=no --porcelain)`; \
+      (if [ -z \"$STASH\" ]; then git stash save \"ffs $1\"; fi;) && \
+      git checkout develop && \
+      git pull && \
+      git flow feature start $feature $1 && \
+      (if [ -z \"$STASH\" ]; then git stash pop; fi;) \
+      }; f"
+    # flow feature finish
+    # stash, pull develop, gitflow, push, pop
+    fff = "!f() { \
+      STASH=`$(git status --untracked-files=no --porcelain)`; \
+      if [ -z \"$STASH\" ]; then git stash; fi; && \
+      git checkout develop && \
+      git pull && \
+      git flow feature finish $1 && \
+      git push; \
+      if [ -z \"$STASH\" ]; then git stash pop; fi; \
+      } ; f"
 
+    ffc = flow feature checkout
+    fft = flow feature track
+    ffp = flow feature pull
+    fpp = flow feature publish
+    frs = flow release start --fetch
+    frf = "!f() { \
+      git checkout develop && git pull \
+      git checkout master && git pull \
+      flow release finish $1 && \
+      git checkout develop && git push \
+      git checkout master && git push \
+      git push --tags && \
+      git checkout develop; \
+      } ; f"
+    fhs = flow hotfix start --fetch
+    fhf = "!f() { \
+      git checkout develop && git pull \
+      git checkout master && git pull \
+      flow hotfix finish $1 && \
+      git checkout develop && git push \
+      git checkout master && git push \
+      git push --tags && \
+      git checkout develop; \
+    } ; f"
+
+    # ignore file locally
+    ignore = update-index --assume-unchanged
+    unignore = update-index --no-assume-unchanged
+    ignored = !git ls-files -v | grep "^[[:lower:]]"
+
+    # presentations
+    next= "f() { git checkout `git rev-list --topo-order HEAD..$1 | tail -1`} f"
+    prev= "F() { git checkout `git rev-list --topo-order HEAD..$1 | head -1`} f"
 [push]
     default = upstream
 [branch]
