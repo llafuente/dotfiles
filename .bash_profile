@@ -1,3 +1,6 @@
+# load common staff, when .bashrc it's not used
+[ -z "$PS1" ] && source ~/.bash_common;
+
 #normal promnt
 PS1="[\[\033[01;31m\]${LOGNAME}\[\033[00m\]@\[\033[01;32m\]${INSTANCE_NAME}\[\033[00m\] \[\033[01;36m\]\w\[\033[00m\]]"
 
@@ -148,3 +151,7 @@ fi
 
 # rvm
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# print some info if shell
+echo -ne "Current date: "; date '+%A, %B %-d %Y'
+echo -ne "uptime: "; uptime

@@ -1,0 +1,13 @@
+source ~/.node
+PATH=$PATH:$HOME/bin
+
+echo "HOME IS: $HOME"
+# Add PIP
+if [ -d $HOME/.local/bin ]; then
+  PATH="$PATH:$HOME/.local/bin"
+fi
+
+# Add RVM to PATH for scripting
+if [ -d $HOME/.rvm/bin ]; then
+  PATH="$PATH:$HOME/.rvm/bin"
+fi
