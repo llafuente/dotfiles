@@ -15,7 +15,8 @@ export HISTFILESIZE=$HISTSIZE
 export HISTTIMEFORMAT='%F %T '
 
 # Save and reload the history after each command finishes
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+# this share history between tabs, after using it, it dangerous...
+# export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend;
