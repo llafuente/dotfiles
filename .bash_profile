@@ -153,5 +153,6 @@ fi
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # print some info if shell
-echo -ne "Current date: "; date '+%A, %B %-d %Y'
+#echo -ne "Current date: "; date '+%A, %B %-d %Y'
+echo -ne "Current date: "; date
 echo -ne "uptime: "; uptime

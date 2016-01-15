@@ -58,47 +58,73 @@
     # git flow alias
     # flow feature start
     # stash, pull, gitflow, pop
+
+    pullm = "!f() { git checkout master && git pull; }; f"
+    pulld = "!f() { git checkout develop && git pull; }; f"
+    pushm = "!f() { git checkout master && git push; }; f"
+    pushd = "!f() { git checkout develop && git push; }; f"
+
     ffs = "!f() { \
       STASH=`$(git status --untracked-files=no --porcelain)`; \
-      (if [ -z \"$STASH\" ]; then git stash save \"ffs $1\"; fi;) && \
+      (if [ -n \"$STASH\" ]; then git stash save \"ffs $1\"; fi;) && \
       git checkout develop && \
       git pull && \
       git flow feature start $feature $1 && \
-      (if [ -z \"$STASH\" ]; then git stash pop; fi;) \
+      (if [ -n \"$STASH\" ]; then git stash pop; fi;) \
       }; f"
     # flow feature finish
     # stash, pull develop, gitflow, push, pop
     fff = "!f() { \
       STASH=`$(git status --untracked-files=no --porcelain)`; \
-      if [ -z \"$STASH\" ]; then git stash; fi; && \
+      if [ -n \"$STASH\" ]; then git stash; fi; && \
       git checkout develop && \
       git pull && \
       git flow feature finish $1 && \
       git push; \
-      if [ -z \"$STASH\" ]; then git stash pop; fi; \
+      if [ -n \"$STASH\" ]; then git stash pop; fi; \
       } ; f"
 
     ffc = flow feature checkout
     fft = flow feature track
     ffp = flow feature pull
     fpp = flow feature publish
-    frs = flow release start --fetch
+
+    # [stash,] pull, hotfix start, [unstash]
+    frs = "!f() { \
+      STASH=`$(git status --untracked-files=no --porcelain)`; \
+      if [ -n \"$STASH\" ]; then git stash; fi; && \
+      git pullm && git pulld && \
+      git flow release start $1 && \
+      if [ -n \"$STASH\" ]; then git stash pop; fi; \
+      } ; f"
+
+    # pull, release finish, push, co develop
     frf = "!f() { \
-      git checkout develop && git pull \
-      git checkout master && git pull \
+      STASH=`$(git status --untracked-files=no --porcelain)`; \
+      if [ -n \"$STASH\" ]; echo \"uncomitted changes\"; exit 1; fi; && \
+      git pullm && git pulld && \
       flow release finish $1 && \
-      git checkout develop && git push \
-      git checkout master && git push \
+      git pushm && git pushm && \
       git push --tags && \
       git checkout develop; \
       } ; f"
-    fhs = flow hotfix start --fetch
+
+    # [stash,] pull, hotfix start, [unstash]
+    fhs = "!f() { \
+      STASH=`$(git status --untracked-files=no --porcelain)`; \
+      if [ -n \"$STASH\" ]; then git stash; fi; && \
+      git pullm && git pulld && \
+      git flow hotfix start $1 && \
+      if [ -n \"$STASH\" ]; then git stash pop; fi; \
+      } ; f"
+
+    # pull, hotfix finish, push, co develop
     fhf = "!f() { \
-      git checkout develop && git pull \
-      git checkout master && git pull \
-      flow hotfix finish $1 && \
-      git checkout develop && git push \
-      git checkout master && git push \
+      STASH=`$(git status --untracked-files=no --porcelain)`; \
+      if [ -n \"$STASH\" ]; echo \"uncomitted changes\"; exit 1; fi; && \
+      git pullm && git pulld && \
+      git flow hotfix finish $1 && \
+      git pushm && git pushm && \
       git push --tags && \
       git checkout develop; \
     } ; f"
