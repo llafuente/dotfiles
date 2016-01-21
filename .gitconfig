@@ -101,7 +101,7 @@
     # pull, release finish, push, co develop
     frf = "!f() { \
       STASH=`$(git status --untracked-files=no --porcelain)`; \
-      if [ -n \"$STASH\" ]; echo \"uncomitted changes\"; exit 1; fi; && \
+      if [ -n \"$STASH\" ]; then echo \"uncomitted changes\"; exit 1; fi; && \
       git pullm && git pulld && \
       flow release finish $1 && \
       git pushm && git pushm && \
@@ -121,7 +121,7 @@
     # pull, hotfix finish, push, co develop
     fhf = "!f() { \
       STASH=`$(git status --untracked-files=no --porcelain)`; \
-      if [ -n \"$STASH\" ]; echo \"uncomitted changes\"; exit 1; fi; && \
+      if [ -n \"$STASH\" ]; then echo \"uncomitted changes\"; exit 1; fi; && \
       git pullm && git pulld && \
       git flow hotfix finish $1 && \
       git pushm && git pushm && \
