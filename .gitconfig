@@ -59,6 +59,20 @@
     # flow feature start
     # stash, pull, gitflow, pop
 
+    # last commit rejected, just want to rebase (that it's disabled in my config)
+    rebaselast = "!f() { \
+      STASH=`$(git status --untracked-files=no --porcelain)`; \
+      (if [ -n \"$STASH\" ]; then echo \"uncomitted changes\"; exit 1; fi) && \
+      MESSAGE=`git log -1 --pretty=%B`; \
+      git reset HEAD~1 && \
+      git stash && \
+      git pull && \
+      git stash pop && \
+      git commit -a -m "$MESSAGE" && \
+      git push; \
+      }; f"
+
+
     pullm = "!f() { git checkout master && git pull; }; f"
     pulld = "!f() { git checkout develop && git pull; }; f"
     pushm = "!f() { git checkout master && git push; }; f"
@@ -76,7 +90,7 @@
     # stash, pull develop, gitflow, push, pop
     fff = "!f() { \
       STASH=`$(git status --untracked-files=no --porcelain)`; \
-      if [ -n \"$STASH\" ]; then git stash; fi; && \
+      (if [ -n \"$STASH\" ]; then git stash; fi;) && \
       git checkout develop && \
       git pull && \
       git flow feature finish $1 && \
@@ -92,7 +106,7 @@
     # [stash,] pull, hotfix start, [unstash]
     frs = "!f() { \
       STASH=`$(git status --untracked-files=no --porcelain)`; \
-      if [ -n \"$STASH\" ]; then git stash; fi; && \
+      (if [ -n \"$STASH\" ]; then git stash; fi;) && \
       git pullm && git pulld && \
       git flow release start $1 && \
       if [ -n \"$STASH\" ]; then git stash pop; fi; \
@@ -101,7 +115,7 @@
     # pull, release finish, push, co develop
     frf = "!f() { \
       STASH=`$(git status --untracked-files=no --porcelain)`; \
-      if [ -n \"$STASH\" ]; then echo \"uncomitted changes\"; exit 1; fi; && \
+      (if [ -n \"$STASH\" ]; then echo \"uncomitted changes\"; exit 1; fi;) && \
       git pullm && git pulld && \
       flow release finish $1 && \
       git pushm && git pushm && \
@@ -112,7 +126,7 @@
     # [stash,] pull, hotfix start, [unstash]
     fhs = "!f() { \
       STASH=`$(git status --untracked-files=no --porcelain)`; \
-      if [ -n \"$STASH\" ]; then git stash; fi; && \
+      (if [ -n \"$STASH\" ]; then git stash; fi;) && \
       git pullm && git pulld && \
       git flow hotfix start $1 && \
       if [ -n \"$STASH\" ]; then git stash pop; fi; \
@@ -121,7 +135,7 @@
     # pull, hotfix finish, push, co develop
     fhf = "!f() { \
       STASH=`$(git status --untracked-files=no --porcelain)`; \
-      if [ -n \"$STASH\" ]; then echo \"uncomitted changes\"; exit 1; fi; && \
+      (if [ -n \"$STASH\" ]; then echo \"uncomitted changes\"; exit 1; fi;) && \
       git pullm && git pulld && \
       git flow hotfix finish $1 && \
       git pushm && git pushm && \
