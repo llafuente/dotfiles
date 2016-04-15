@@ -1,6 +1,8 @@
 // usefull staff that can be included in near future
 // https://github.com/comerford/mongodb-scripts/
 
+DBQuery.prototype._prettyShell = true
+
 slave_states = ["STARTUP", "PRIMARY", "SECONDARY", "RECOVERING", "FATAL",
   "STARTUP2", "UNKNOWN", "ARBITER", "DOWN", "ROLLBACK"];
 
