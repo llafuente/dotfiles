@@ -140,6 +140,9 @@ alias killphps='pgrep php | xargs kill -9'
 alias github-on='GIT_COMMITTER_NAME=llafuente GIT_COMMITTER_EMAIL=llafuente@noboxout.com'
 alias github-off='GIT_COMMITTER_NAME= GIT_COMMITTER_EMAIL='
 
+# misc
+# list las modification of file/path ($1)
+alias last-mod='find $1 -type f -exec stat --format "%Y :%y %n" "{}" \; | sort -nr | cut -d: -f2- | head'
 
 # bash completion staff
 if [ -s /etc/bash_completion ] && ! shopt -oq posix; then
