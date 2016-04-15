@@ -49,13 +49,16 @@
     ap = apply --index
     pa = format-patch --stdout
     update-library = merge --squash -s subtree --no-commit
+    reset-branch = "!f() {\
+      git branch -D $1 && \
+      git branch -t $1 \"origin/${1}\" \
+    }; f"
 
     # time sine last commit
     time = "!f() { last_commit=`git log --pretty=format:'%at' -1 2> /dev/null`;  now=`date +%s`;  seconds_since_last_commit=$((now - last_commit)); MINUTES=$((seconds_since_last_commit / 60)); HOURS=$((seconds_since_last_commit/3600)); DAYS=$((seconds_since_last_commit / 86400)); SUB_HOURS=$((HOURS % 24)); SUB_MINUTES=$((MINUTES % 60)); if [ \"$HOURS\" -gt 24 ]; then echo \"(${DAYS}d${SUB_HOURS}h${SUB_MINUTES}m)\"; elif [ \"$MINUTES\" -gt 60 ]; then echo \"(${HOURS}h${SUB_MINUTES}m)\"; else echo \"(${MINUTES}m)\"; fi; }; f"
     # time between last two commits
     time2 = "!f() { seconds_since_last_commit=`git log --pretty=format:'%at' -2 | awk 'BEGIN {l=1; last_commit=0;}; {if(l == 1) {last_commit=$0} else {print last_commit-$0} l++;}'`; MINUTES=$((seconds_since_last_commit / 60)); HOURS=$((seconds_since_last_commit/3600)); DAYS=$((seconds_since_last_commit / 86400)); SUB_HOURS=$((HOURS % 24)); SUB_MINUTES=$((MINUTES % 60)); if [ \"$HOURS\" -gt 24 ]; then echo \"(${DAYS}d${SUB_HOURS}h${SUB_MINUTES}m)\"; elif [ \"$MINUTES\" -gt 60 ]; then echo \"(${HOURS}h${SUB_MINUTES}m)\"; else echo \"(${MINUTES}m)\"; fi; }; f"
 
-    # git flow alias
     # git flow alias
     # flow feature start
     # stash, pull, gitflow, pop
@@ -118,8 +121,8 @@
       STASH=$(git status --untracked-files=no --porcelain); \
       (if [ -n \"$STASH\" ]; then echo \"uncomitted changes\"; exit 1; fi;) && \
       git pullm && git pulld && \
-      flow release finish $1 && \
-      git pushm && git pushm && \
+      git flow release finish $1 && \
+      git pushm && git pushd && \
       git push --tags && \
       git checkout develop; \
       } ; f"
@@ -139,7 +142,7 @@
       (if [ -n \"$STASH\" ]; then echo \"uncomitted changes\"; exit 1; fi;) && \
       git pullm && git pulld && \
       git flow hotfix finish $1 && \
-      git pushm && git pushm && \
+      git pushm && git pushd && \
       git push --tags && \
       git checkout develop; \
     } ; f"
