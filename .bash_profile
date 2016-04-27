@@ -35,7 +35,7 @@ shopt -s checkwinsize
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
 # * Recursive globbing, e.g. `echo **/*.txt`
 for option in autocd globstar; do
-	shopt -s "$option" 2> /dev/null;
+  shopt -s "$option" 2> /dev/null;
 done;
 shopt -s globstar
 
@@ -44,40 +44,40 @@ shopt -s globstar
 stty -ixon
 
 mkd() {
-	mkdir -p "$@" && cd "$_";
+  mkdir -p "$@" && cd "$_";
 }
 
 # Syntax-highlight JSON strings or files
 # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
 json() {
-	if [ -t 0 ]; then # argument
-		python -mjson.tool <<< "$*" | pygmentize -l javascript;
-	else # pipe
-		python -mjson.tool | pygmentize -l javascript;
-	fi;
+  if [ -t 0 ]; then # argument
+    python -mjson.tool <<< "$*" | pygmentize -l javascript;
+  else # pipe
+    python -mjson.tool | pygmentize -l javascript;
+  fi;
 }
 
 # compress/extract
 
 x() {
-	if [ -f $1 ] ; then
-		case $1 in
-			*.tar.bz2)   tar xvjf $1    ;;
-			*.tar.gz)    tar xvzf $1    ;;
-			*.bz2)       bunzip2 $1     ;;
-			*.rar)       unrar x $1     ;;
-			*.gz)        gunzip $1      ;;
-			*.tar)       tar xvf $1     ;;
-			*.tbz2)      tar xvjf $1    ;;
-			*.tgz)       tar xvzf $1    ;;
-			*.zip)       unzip $1       ;;
-			*.Z)         uncompress $1  ;;
-			*.7z)        7z x $1        ;;
-			*)           echo "Unable to extract '$1'" ;;
-		esac
-	else
-		echo "'$1' is not a valid file"
-	fi
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xvjf $1    ;;
+      *.tar.gz)    tar xvzf $1    ;;
+      *.bz2)       bunzip2 $1     ;;
+      *.rar)       unrar x $1     ;;
+      *.gz)        gunzip $1      ;;
+      *.tar)       tar xvf $1     ;;
+      *.tbz2)      tar xvjf $1    ;;
+      *.tgz)       tar xvzf $1    ;;
+      *.zip)       unzip $1       ;;
+      *.Z)         uncompress $1  ;;
+      *.7z)        7z x $1        ;;
+      *)           echo "Unable to extract '$1'" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
 }
 
 # Creates an archive from given directory
@@ -91,6 +91,24 @@ cpperms() {
   getfacl $1 | setfacl -f - $2;
 }
 
+# replace current term with a terminator with a know layout
+term() {
+  case "$1" in
+    "gen3") CWD=$2; (nohup terminator -m -l gen3 >/dev/null 2>&1 &); exit; ;;
+    "agenda") (nohup terminator -m -l agenda >/dev/null 2>&1 &); exit; ;;
+    *)      echo "Unable to find layout '$1'" ;;
+  esac
+}
+
+tutorial() {
+  file="${HOME}/dotfiles/tutorials/${1}.md"
+  echo "${file}";
+  if [ -e "${file}" ] ; then
+    less "${file}"
+  else
+    echo "'$1' tutorial not found"
+  fi
+}
 
 alias r='reset'
 
@@ -137,8 +155,8 @@ alias g='grunt'
 alias killphps='pgrep php | xargs kill -9'
 
 # git
-alias github-on='GIT_COMMITTER_NAME=llafuente GIT_COMMITTER_EMAIL=llafuente@noboxout.com'
-alias github-off='GIT_COMMITTER_NAME= GIT_COMMITTER_EMAIL='
+alias github-on='export GIT_AUTHOR_NAME=llafuente; export GIT_COMMITTER_NAME=llafuente; export GIT_AUTHOR_EMAIL=llafuente@noboxout.com; export GIT_COMMITTER_EMAIL=llafuente@noboxout.com;'
+alias github-off='export GIT_AUTHOR_NAME=; export GIT_COMMITTER_NAME=; export GIT_AUTHOR_EMAIL=; export GIT_COMMITTER_EMAIL=;'
 
 # misc
 # list las modification of file/path ($1)
@@ -146,10 +164,10 @@ alias last-mod='find $1 -type f -exec stat --format "%Y :%y %n" "{}" \; | sort -
 
 # bash completion staff
 if [ -s /etc/bash_completion ] && ! shopt -oq posix; then
-	source /etc/bash_completion
+  source /etc/bash_completion
 fi
 if [ -s /etc/bash_completion.d/git ]; then
-	source /etc/bash_completion.d/git
+  source /etc/bash_completion.d/git
 fi
 
 # rvm
