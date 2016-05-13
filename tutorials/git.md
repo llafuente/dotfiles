@@ -1,5 +1,10 @@
 # Git sheet
 
+## Working copy
+
+Remove all locally deleted files
+
+    git rm $(git ls-files --deleted)
 
 ## Log / show
 
@@ -43,6 +48,21 @@ Reallocate/move branch pointer to different commit
     # or
     git branch -f <branch> <commit>
 
+Get current branch
+
+    git rev-parse --abbrev-ref HEAD
+    
+
+Get last commit sha1 of a branch
+
+    git fetch # to update repo
+    # origin
+    git ls-remote origin <branch>
+
+Commits list yet to be applied to current branch
+
+    git checkout <branch1>
+    git cherry -v <branch2>
 
 ## BISECT
 
@@ -104,10 +124,20 @@ Create a patch from two revisions
 Create a patch from current working copy
 
     git diff > file.patch
+    # include staged changes ?
+    git diff --cached > file.patch
+    # include binaries? maybe: --full-index
+    git diff --binary > file.patch
 
 Apply a patch
 
     patch -p1 < file.patch # After apply remember to commit :)
+    #or
+    git apply -v file.patch
+
+Apply a patch created using format-patch
+
+    git am patch1.patch
 
 ## TAGS
 
@@ -123,6 +153,10 @@ Move tag
     git tag -f -a ${TAG}
     git push -f --tags
 
+Closest tag
+
+    git describe --tags `git rev-list --tags --max-count=1`
+
 
 # History operations
 
@@ -131,9 +165,14 @@ Fix last commit, adding new changes / change message
 
      git commit --amend
 
-Reset/revert last commit and put it back in the working copy
+Reset/revert last commit 
 
+    # put it back in the working copy
     git reset --soft HEAD~1
+    # discarding changes
+    git reset --hard HEAD~1
+    # preserving local changes in index
+    git reset --mixed HEAD~1
 
 
 [rewrite author & email](https://help.github.com/articles/changing-author-info)
@@ -234,3 +273,9 @@ This maybe needed, depends on how your repo is cloned
     git br -t develop origin/develop
     git br -t master origin/master
     git flow init
+
+
+
+## Get the git root directory
+
+    git rev-parse --show-toplevel
