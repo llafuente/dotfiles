@@ -1,0 +1,85 @@
+[global_config]
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+[keybindings]
+[profiles]
+  [[default]]
+    background_darkness = 0.91
+    scrollback_lines = 500
+    font = Anonymous Pro 14
+    background_type = transparent
+    use_system_font = False
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+    [[[window0]]]
+      type = Window
+      parent = ""
+  [[gen3]]
+    [[[child0]]]
+      position = 65:24
+      type = Window
+      order = 0
+      parent = ""
+      size = 1024, 768
+    [[[child1]]]
+      type = VPaned
+      order = 0
+      parent = child0
+    [[[child3]]]
+      type = HPaned
+      order = 1
+      parent = child1
+    [[[terminal2]]]
+      profile = default
+      command = (XPWD=`pwd`; bash -c "cd ${XPWD}; bash")
+      type = Terminal
+      order = 0
+      parent = child1
+    [[[terminal5]]]
+      profile = default
+      command = (XPWD=`pwd`; bash -c "cd ${XPWD}; bash")
+      type = Terminal
+      order = 1
+      parent = child3
+    [[[terminal4]]]
+      profile = default
+      command = (pwd; sh pull.sh; vagrant ssh;)
+      type = Terminal
+      order = 0
+      parent = child3
+  [[agenda]]
+    [[[child0]]]
+      position = 65:24
+      type = Window
+      order = 0
+      parent = ""
+      size = 1024, 768
+    [[[child1]]]
+      type = VPaned
+      order = 0
+      parent = child0
+    [[[child3]]]
+      type = HPaned
+      order = 1
+      parent = child1
+    [[[terminal2]]]
+      profile = default
+      command = (cd ~/git/; bash)
+      type = Terminal
+      order = 0
+      parent = child1
+    [[[terminal5]]]
+      profile = default
+      command = (cd ~/git/agenda-alianzas-app; bash)
+      type = Terminal
+      order = 1
+      parent = child3
+    [[[terminal4]]]
+      profile = default
+      command = (cd ~/git/agenda-alianzas; sh pull.sh; vagrant ssh;)
+      type = Terminal
+      order = 0
+      parent = child3
+[plugins]
