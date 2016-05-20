@@ -4,7 +4,7 @@
 [profiles]
   [[default]]
     background_darkness = 0.91
-    scrollback_lines = 500
+    scrollback_lines = 5000
     font = Anonymous Pro 14
     background_type = transparent
     use_system_font = False
