@@ -3,11 +3,12 @@
 [keybindings]
 [profiles]
   [[default]]
+    use_system_font = False
     background_darkness = 0.91
     scrollback_lines = 5000
-    font = Anonymous Pro 14
     background_type = transparent
-    use_system_font = False
+    background_image = None
+    font = Anonymous Pro 14
 [layouts]
   [[default]]
     [[[child1]]]

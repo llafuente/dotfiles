@@ -138,6 +138,7 @@ alias shh='ssh'
 alias gerp='grep'
 alias cd..='cd ..'
 alias got='git'
+alias qgit='git' #git diff, q, again...
 
 # vagrant
 
@@ -161,6 +162,7 @@ alias github-off='export GIT_AUTHOR_NAME=; export GIT_COMMITTER_NAME=; export GI
 # misc
 # list las modification of file/path ($1)
 alias last-mod='find $1 -type f -exec stat --format "%Y :%y %n" "{}" \; | sort -nr | cut -d: -f2- | head'
+alias rtail='reset; tail -f -n 0' # usage: rtail <file>
 
 # bash completion staff
 if [ -s /etc/bash_completion ] && ! shopt -oq posix; then

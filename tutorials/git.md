@@ -51,7 +51,7 @@ Reallocate/move branch pointer to different commit
 Get current branch
 
     git rev-parse --abbrev-ref HEAD
-    
+
 
 Get last commit sha1 of a branch
 
@@ -157,6 +157,11 @@ Closest tag
 
     git describe --tags `git rev-list --tags --max-count=1`
 
+Remove local tags that are no longer on the remote repository
+
+    git tag -l | xargs git tag -d # delete all local tags, so becareful!
+    git fetch # fetch all tags!
+
 
 # History operations
 
@@ -165,7 +170,7 @@ Fix last commit, adding new changes / change message
 
      git commit --amend
 
-Reset/revert last commit 
+Reset/revert last commit
 
     # put it back in the working copy
     git reset --soft HEAD~1
@@ -279,3 +284,16 @@ This maybe needed, depends on how your repo is cloned
 ## Get the git root directory
 
     git rev-parse --show-toplevel
+
+## Manual rebase (using cherry-pick)
+
+    git stash # maybe needed
+    git branch tmp
+    git checkout tmp
+    git branch -D develop
+    git branch -t develop origin/develop
+    git checkout develop
+    git pull
+    git cherry-pick 000000
+    git push
+    git branch -D tmp

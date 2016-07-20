@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+// pipe something to highlight
+// usage: xxx | highlight text other-text some-more-text
+// no configuration, just highlight text
+// TODO use regexp ?
+
+process.stdin.setEncoding('utf8');
+
+
+process.stdin.on('readable', () => {
+  var chunk = process.stdin.read();
+  if (chunk !== null) {
+    for (var i = 0; i < process.argv.length; ++i) {
+      chunk = chunk.replace(new RegExp(process.argv[i], 'g'),
+      `\u001b[1m\u001b[44m${process.argv[i]}\u001b[49m\u001b[21m`)
+    }
+
+    process.stdout.write(`data: ${chunk}`);
+  }
+});
+
+process.stdin.on('end', () => {
+  process.stdout.write('\nend');
+});
