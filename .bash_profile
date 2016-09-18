@@ -176,6 +176,10 @@ fi
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # print some info if shell
-#echo -ne "Current date: "; date '+%A, %B %-d %Y'
-echo -ne "Current date: "; date
-echo -ne "uptime: "; uptime
+# only if shell, because otherwise rsync will fail with:
+# protocol version mismatch -- is your shell clean?
+if echo "$-" | grep i > /dev/null; then
+  echo "HOME IS: $HOME"
+  echo -ne "Current date: "; date
+  echo -ne "uptime: "; uptime
+fi
