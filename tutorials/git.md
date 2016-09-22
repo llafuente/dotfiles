@@ -1,5 +1,17 @@
 # Git sheet
 
+## Remotes
+
+https://help.github.com/categories/managing-remotes/
+
+    git remote -v
+
+    # add origin
+    git remote add origin git@github.com:llafuente/*.git
+
+    # rename origin
+    git remote set-url origin git@github.com:llafuente/*.git
+
 ## Working copy
 
 Remove all locally deleted files
@@ -28,6 +40,7 @@ Create branches
 Sometime branch do not track exactly the origin/branch, use tracking.
 
     git br -t develop origin/develop
+    git br -t master origin/master
 
 Delete local branch
 
