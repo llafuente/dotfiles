@@ -184,6 +184,3 @@ if echo "$-" | grep i > /dev/null; then
   echo -ne "uptime: "; uptime
 fi
 
-# this is for my installer shs
-# https://www.github.com/llafuente/installer
-INSTALLER_PATH="${HOME}/installer"

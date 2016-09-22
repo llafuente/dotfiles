@@ -1,4 +1,8 @@
 source ~/.node
+
+if [ -f ~/.aws_profile ]; then
+  source ~/.aws_profile
+fi
 PATH=$PATH:$HOME/bin
 
 # Add PIP
@@ -10,3 +14,7 @@ fi
 if [ -d $HOME/.rvm/bin ]; then
   PATH="$PATH:$HOME/.rvm/bin"
 fi
+
+# this is for my installer shs
+# https://www.github.com/llafuente/installer
+INSTALLER_PATH="${HOME}/installer"
