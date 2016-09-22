@@ -186,4 +186,4 @@ fi
 
 # this is for my installer shs
 # https://www.github.com/llafuente/installer
-INSTALLER_ROOT=~/installer
+INSTALLER_PATH="${HOME}/installer"
