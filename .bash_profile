@@ -110,6 +110,36 @@ tutorial() {
   fi
 }
 
+append_if() {
+  # $1 file
+  # $2 mark
+  # $3 contents
+  FOUND=$(grep $2 $1)
+
+  if [ ! -z "${FOUND}" ]; then
+    echo "do not append to file ${1} mark was found"
+  else
+    echo -n $3 | sudo tee -a file
+  fi
+}
+
+bak_file() {
+  local i=0
+  while [ -f "${1}.bak${i}" ]
+  do
+    i=$(($i + 1))
+  done
+
+  export LAST_BAKED_FILE="${1}"
+  export LAST_BAK_FILE="${1}.bak${i}"
+  sudo cp -p $1 "${1}.bak${i}"
+}
+
+diff_last_bak_file() {
+  # use git diff has colors!
+  git diff --no-index -w ${LAST_BAK_FILE} ${LAST_BAKED_FILE}
+}
+
 alias r='reset'
 
 # list
@@ -183,4 +213,3 @@ if echo "$-" | grep i > /dev/null; then
   echo -ne "Current date: "; date
   echo -ne "uptime: "; uptime
 fi
-
