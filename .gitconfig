@@ -14,7 +14,7 @@
     fileMode = false
 [merge]
     tool = diffmerge
-    ff = true
+    ff = only
 [alias]
     # force pull (stash + pull + stash pop)
     fpull = !sh -c 'git stash && git pull && git stash pop'

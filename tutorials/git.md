@@ -77,6 +77,23 @@ Commits list yet to be applied to current branch
     git checkout <branch1>
     git cherry -v <branch2>
 
+Branch first commit
+
+    git log develop..origin/feature/form-build --oneline | tail -1 | awk '{print $1}'
+
+Branch last commit
+
+    git log develop..origin/feature/form-build --oneline | head -1 | awk '{print $1}'
+
+If you didn't merge other branches inside yours, you can have an accurate diff
+of what you did
+
+    C1=$(git log develop..origin/feature/form-build --oneline | tail -1 | awk '{print $1}')
+    C2=$(git log develop..origin/feature/form-build --oneline | head -1 | awk '{print $1}')
+    git diff ${C1}..${C2} --stat
+    # include & exlude support
+    git diff ${C1}..${C2} --stat -- '*.js' ':(exclude)spec-path/'
+
 ## BISECT
 
     git bisect start
