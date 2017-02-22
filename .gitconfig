@@ -9,11 +9,9 @@
 [color]
     ui = auto
 [core]
-    editor = vim
     autocrlf = input
     fileMode = false
 [merge]
-    tool = diffmerge
     ff = only
 [alias]
     # force pull (stash + pull + stash pop)
@@ -154,15 +152,17 @@
     prev= "F() { git checkout `git rev-list --topo-order HEAD..$1 | head -1`} f"
 [push]
     default = upstream
-[branch]
-    # 'autosetuprebase = always'
-    autosetuprebase = never
+[mergetool]
+    keepBackup = false
+# linux apps, remove at windows
+[merge]
+    tool = diffmerge
+[core]
+    editor = vim
 [diff]
     guitool = kdiff3
     tool = kdiff3
     renames = copies
-[mergetool]
-    keepBackup = false
 [difftool "diffmerge"]
     cmd = diffmerge $LOCAL $REMOTE
 [mergetool "diffmerge"]
@@ -171,3 +171,12 @@
     cmd = /usr/bin/kdiff3 $BASE $LOCAL $REMOTE -o $MERGED
     keepBackup = false
     trustExitCode = false
+# configure pull with rebase, not merge
+[pull]
+  rebase = true
+[branch]
+  autosetuprebase = always
+[branch "master"]
+  rebase = true
+[branch "develop"]
+  rebase = true
