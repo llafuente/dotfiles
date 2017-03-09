@@ -12,6 +12,23 @@ https://help.github.com/categories/managing-remotes/
     # rename origin
     git remote set-url origin git@github.com:llafuente/*.git
 
+
+Sync two remotes
+
+    # origin2/x is behind, merge origin/x
+    git br -t develop2 origin2/develop
+    git co develop2
+    git merge origin/develop --no-ff
+
+    # now origin2/x is foward, so origin/x rebase
+    git br -D develop
+    git br -t develop origin/develop
+    git co develop
+    git rebase develop2
+
+    git push
+
+
 ## Working copy
 
 Remove all locally deleted files
