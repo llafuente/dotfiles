@@ -176,6 +176,18 @@ Create a patch from current working copy
     # include binaries? maybe: --full-index
     git diff --binary > file.patch
 
+Create a patch from stash
+
+    git stash show -p --color=never > patch.patch
+    # NOTE! powershell output is UTF-16 use: | Out-File patch.patch -Encoding utf8
+    
+
+Get file from stash (useful to make partial patches in working copy)
+
+    git checkout 'stash@{0}' -- <path-to-file>
+
+
+
 Apply a patch
 
     patch -p1 < file.patch # After apply remember to commit :)
