@@ -111,6 +111,10 @@ of what you did
     # include & exlude support
     git diff ${C1}..${C2} --stat -- '*.js' ':(exclude)spec-path/'
 
+Stats per author
+
+    git log --author="Luis Lafuente Morales" --oneline --shortstat -- . ":(exclude)dashboard/src" ":(exclude)dashboard/thin2-fe/src/styles" | grep " file" | awk 'BEGIN {insertions = 0; deletions = 0;} { split($0,a,\",\"); insertions+=a[2]; deletions += a[3]; } END { print \"insertions\", insertions, \" deletions\", deletions; }'
+
 ## BISECT
 
     git bisect start
