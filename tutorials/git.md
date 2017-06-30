@@ -28,6 +28,13 @@ Sync two remotes
 
     git push
 
+## Merge
+
+Merge branch onto branch (Merge the specified branch into the current branch)
+
+    # merge develop onto master
+    git co master
+    git merge develop --no-ff
 
 ## Working copy
 
