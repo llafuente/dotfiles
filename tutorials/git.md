@@ -367,3 +367,15 @@ This maybe needed, depends on how your repo is cloned
     git cherry-pick 000000
     git push
     git branch -D tmp
+
+## Squash commits
+
+
+    git rebase -i HEAD~3
+    # now follow the instructions
+    # I like to use 'r' (rework) on the first one, 's' on the rest
+
+
+    # there is another method :) that it's a bit faster is eveyrhing is in the stage (no new files)
+    git reset HEAD~3
+    git commit -a -m "xxxx"
