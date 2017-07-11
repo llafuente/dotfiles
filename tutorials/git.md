@@ -253,6 +253,17 @@ Reset/revert last commit
 [rewrite author & email](https://help.github.com/articles/changing-author-info)
 
 
+Force all commits to single author
+
+    git filter-branch --env-filter '
+    CORRECT_NAME="llafuente"
+    CORRECT_EMAIL="llafuente@noboxout.com"
+    export GIT_COMMITTER_NAME="$CORRECT_NAME"
+    export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
+    export GIT_AUTHOR_NAME="$CORRECT_NAME"
+    export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+    ' --tag-name-filter cat -- --branches --tags
+
 ## Rebase and conflicts
 
 To put branch1 above branch2
