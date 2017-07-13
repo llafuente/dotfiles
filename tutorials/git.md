@@ -390,3 +390,8 @@ This maybe needed, depends on how your repo is cloned
     # there is another method :) that it's a bit faster is eveyrhing is in the stage (no new files)
     git reset HEAD~3
     git commit -a -m "xxxx"
+    
+## Remove untracked files and folders
+
+     git clean -fd
+     # NOTE add -x if files to remove are ignored
