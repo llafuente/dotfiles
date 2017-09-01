@@ -37,7 +37,10 @@ shopt -s checkwinsize
 for option in autocd globstar; do
   shopt -s "$option" 2> /dev/null;
 done;
-shopt -s globstar
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  shopt -s globstar
+fi
+
 
 # No ttyctl, so we need to save and then restore terminal settings
 # maybe: bind -r '\C-s'
@@ -150,10 +153,14 @@ alias l='ls -CF'
 
 # colors!
 
-alias ls='ls --color=auto --group-directories-first'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  alias ls='ls --color=auto --group-directories-first'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  alias ls='ls -G'
+fi
 
 # readable
 
