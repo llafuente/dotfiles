@@ -1,5 +1,13 @@
 # Git sheet
 
+# git add empty folder
+
+create a .gitignore file inside with the following content.
+
+    *
+    !.gitignore
+
+
 ## Remotes
 
 https://help.github.com/categories/managing-remotes/
