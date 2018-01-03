@@ -1,12 +1,17 @@
 # Git sheet
 
-# git add empty folder
+## .gitignore
+
+### add empty folder to git
 
 create a .gitignore file inside with the following content.
 
     *
     !.gitignore
 
+### List all ignored files
+
+    git status --ignored
 
 ## Remotes
 
@@ -68,6 +73,11 @@ Create branches
 
     git br <name>
     git co <name>
+
+Create branches with no history (orphan)
+
+    git checkout --orphan <name>
+
 
 Sometime branch do not track exactly the origin/branch, use tracking.
 
@@ -199,13 +209,15 @@ Create a patch from stash
 
     git stash show -p --color=never > patch.patch
     # NOTE! powershell output is UTF-16 use: | Out-File patch.patch -Encoding utf8
-    
+
 
 Get file from stash (useful to make partial patches in working copy)
 
     git checkout 'stash@{0}' -- <path-to-file>
 
+Get file from history (restore file)
 
+    git checkout <sha1> -- <path-to-file>
 
 Apply a patch
 
@@ -216,6 +228,11 @@ Apply a patch
 Apply a patch created using format-patch
 
     git am patch1.patch
+
+
+Add to stage only non-whitespace changes
+    git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -
+    # Note all whitespace changes are not discarded
 
 ## TAGS
 
@@ -393,13 +410,20 @@ This maybe needed, depends on how your repo is cloned
     git rebase -i HEAD~3
     # now follow the instructions
     # I like to use 'r' (rework) on the first one, 's' on the rest
+    # NOTE: commands are executed from top to bottom.
 
 
     # there is another method :) that it's a bit faster is eveyrhing is in the stage (no new files)
     git reset HEAD~3
     git commit -a -m "xxxx"
-    
+
 ## Remove untracked files and folders
 
      git clean -fd
      # NOTE add -x if files to remove are ignored
+
+
+## Move folder from one repository to another one
+
+https://stackoverflow.com/questions/19097259/how-to-move-a-git-repository-into-another-directory-and-make-that-directory-a-gi
+http://gbayer.com/development/moving-files-from-one-git-repository-to-another-preserving-history/

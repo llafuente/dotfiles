@@ -2,6 +2,10 @@
 
 This is just a collection of small scripts
 
+## List broken links
+
+    find . -type l ! -exec test -e {} \; -print
+
 ## Remove broken links
 
     symlinks -dr <path> # sudo apt-get install symlinks
@@ -35,9 +39,9 @@ Credits and more: http://stackoverflow.com/questions/29613304/is-it-possible-to-
     do
       echo ${i}
     done
-  
+
 alternative method
-  
+
     string="a|b|c"
     split=(${string//|/ })
     for i in ${split[@]}
@@ -45,14 +49,14 @@ alternative method
       echo ${i}
     done
 
-  
+
 ## ssh login with username & password
 
 
     USERNAME=""
     SERVER_IP=""
     PASSWORD=""
-    
+
     cat <<DELIM | tee ssh.expect | grep -v ""
     #!/usr/bin/expect -f
     set timeout -1
@@ -66,7 +70,7 @@ alternative method
     }
 
     DELIM
-    
+
     expect ./ssh.expect
 
 ## scp login with username & password
@@ -76,7 +80,7 @@ alternative method
     PASSWORD=""
     SRC_FILE=""
     DST_FILE=""
-    
+
     cat <<DELIM | tee scp.expect | grep -v ""
     #!/usr/bin/expect -f
     set timeout -1 #maybe: set timeout 3600
@@ -90,7 +94,7 @@ alternative method
     }
 
     DELIM
-    
+
     expect ./scp.expect
 
 ## Profiling
@@ -98,3 +102,17 @@ alternative method
     START_DATE=$(date +%s%N)
     END_DATE=$(date +%s%N)
     echo "time(ms): $(((END_DATE - START_DATE) / 1000))"
+
+## If / test
+
+* -e: Returns true value if file exists.
+* -f: Return true value if file exists and regular file.
+* -r: Return true value if file exists and is readable.
+* -w: Return true value if file exists and is writable.
+* -x: Return true value if file exists and is executable.
+* -d: Return true value if exists and is a directory.
+
+
+oneliner (~ternary)
+
+    [[ -f /xxx ]] && echo "File exist" || echo "File does not exist"
