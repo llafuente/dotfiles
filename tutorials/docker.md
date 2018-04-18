@@ -12,6 +12,12 @@ Collection of commands
     docker exec -it XXX bash
 
 
+## swarm ~nodes info
+
+TODO: this is no-swarm-mode only?
+
+    docker -H tcp://lpnov523:35270 info
+
 ## Remove (container) by name
 
 docker rm -f $(docker ps --filter "name=zuul-nova3" --format "{{.ID}}")
@@ -19,6 +25,10 @@ docker rm -f $(docker ps --filter "name=zuul-nova3" --format "{{.ID}}")
 ## Run docker with root priviledges
 
     docker run -it --privileged --name XXX XXX
+
+# Run docker that crash on start
+
+    docker run --entrypoint=/bin/bash --name XXX XXX
 
 ## Run docker with modprobe on host network
 
@@ -34,6 +44,13 @@ When you
     docker rm -f "${CONTAINER_ID}"
     docker rmi -f "${IMAGE_ID}"
 
+## Remove stopped
+
+no resources available to schedule container
+
+    docker stop $(docker ps -q)
+    docker rm $(docker ps -a -q)
+
 ## hard remove
 
 Sometimes even a stopped machine can be removed, or worst some changes are inside host
@@ -47,6 +64,12 @@ Sometimes even a stopped machine can be removed, or worst some changes are insid
     # fast for binaries :)
     docker cp $(which killall) poc_master:$(which killall)
 
+
+NOTE: attributes/ownership is copied.
+
+To copy something with a user/group that doesn't exists in the host machine use:
+
+    chmod user_id:group_id file
 
 ## Edit docker files when stopped
 
@@ -71,3 +94,14 @@ Sometimes even a stopped machine can be removed, or worst some changes are insid
 
     --restart=on-failure:10 --memory-swappiness="0" -m 1250m --memory-swap="1250m" --cpus=1.0
 
+
+# Troubleshooting
+
+## Script start fail
+
+try to run with an override ENTRYPOINT:
+
+   docker run --entrypoint /bin/sh
+
+Alertnative: modify the script adding `sleep 9999999` before the crash point,
+then `docker cp`.

@@ -16,3 +16,11 @@ interface I {
     (data: string): string;
 };
 ```
+
+## abstract class
+
+```ts
+abstract class XXX {
+  abstract YYY () : void;
+}
+```

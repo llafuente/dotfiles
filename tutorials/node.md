@@ -33,26 +33,28 @@ at .npmrc
 ## Update angular in our artifactory
 
 ```bash
-VERSION=5.1.0
-for PACKAGE in "animations" "common" "compiler" "core" "forms" "http" "platform-browser" "platform-browser-dynamic" "router" "compiler-cli"; do
+cd /tmp
+REGISTRY=http://cibartifactory.igrupobbva:8084/artifactory/api/npm/Npm_thin2
+VERSION=5.2.0
+for PACKAGE in "animations" "common" "compiler" "core" "forms" "http" "platform-browser" "platform-browser-dynamic" "router" "compiler-cli" "platform-server"; do
   echo $PACKAGE
 
   curl -o "${PACKAGE}-${VERSION}.tgz" "http://registry.npmjs.org/@angular/${PACKAGE}/-/@angular/${PACKAGE}-${VERSION}.tgz"
 
-  npm publish "${PACKAGE}-${VERSION}.tgz"
+  npm publish "${PACKAGE}-${VERSION}.tgz" --registry ${REGISTRY}
 done
 
 VERSION=2.4.2
 PACKAGE=typescript
 
 curl -o "${PACKAGE}-${VERSION}.tgz" "http://registry.npmjs.org/${PACKAGE}/-/${PACKAGE}-${VERSION}.tgz"
-npm publish "${PACKAGE}-${VERSION}.tgz"
+npm publish "${PACKAGE}-${VERSION}.tgz" --registry ${REGISTRY}
 
-VERSION=5.5.2
+VERSION=5.5.6
 PACKAGE=rxjs
 
 curl -o "${PACKAGE}-${VERSION}.tgz" "http://registry.npmjs.org/${PACKAGE}/-/${PACKAGE}-${VERSION}.tgz"
-npm publish "${PACKAGE}-${VERSION}.tgz"
+npm publish "${PACKAGE}-${VERSION}.tgz" --registry ${REGISTRY}
 
 ```
 
