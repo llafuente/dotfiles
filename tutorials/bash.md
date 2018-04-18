@@ -116,3 +116,23 @@ alternative method
 oneliner (~ternary)
 
     [[ -f /xxx ]] && echo "File exist" || echo "File does not exist"
+
+
+## list files sorted by date
+
+    find . -type f -printf "%-.22T+ %M %n %-8u %-8g %8s %Tx %.8TX %p\n" | sort | cut -f 2- -d ' '
+
+## for each line
+
+Iterate a file per line using for loop.
+
+  # this allow path to have whitespaces
+  IFS=$'\n'
+  for FILE in $(find -maxdepth 2 -name config.xml)
+  do
+    echo "file: ${FILE}"
+  done
+
+## nohup redirect output
+
+    nohup CMD < /dev/null > OUTPUT_FILE 2>&1 &

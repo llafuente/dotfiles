@@ -66,6 +66,13 @@ Change file modes to git ones.
     git diff --summary | grep --color 'mode change 100755 => 100644' | cut -d' ' -f7- | xargs -d'\n' chmod +x
     git diff --summary | grep --color 'mode change 100644 => 100755' | cut -d' ' -f7- | xargs -d'\n' chmod -x
 
+Show differences word by word
+
+    git diff --color-words
+
+Show what it's going to be commited: show diff staged
+
+    git diff --cached
 
 ## BRANCHING
 
@@ -74,7 +81,7 @@ Create branches
     git br <name>
     git co <name>
 
-Create branches with no history (orphan)
+Create branches with no history (orphan). Useful for github-pages (gh-pages)
 
     git checkout --orphan <name>
 
@@ -218,6 +225,14 @@ Get file from stash (useful to make partial patches in working copy)
 Get file from history (restore file)
 
     git checkout <sha1> -- <path-to-file>
+
+Get a file from index
+
+    git log -p <path-to-file>
+    # search for the index, example: index 6ce1aa3..0000000
+    # left side is the "previous", right side the "current"
+    # 0000000 means deleted in this example
+    git show 6ce1aa3
 
 Apply a patch
 
@@ -427,3 +442,6 @@ This maybe needed, depends on how your repo is cloned
 
 https://stackoverflow.com/questions/19097259/how-to-move-a-git-repository-into-another-directory-and-make-that-directory-a-gi
 http://gbayer.com/development/moving-files-from-one-git-repository-to-another-preserving-history/
+
+
+## Smart add, only some part of a file
