@@ -136,3 +136,37 @@ Iterate a file per line using for loop.
 ## nohup redirect output
 
     nohup CMD < /dev/null > OUTPUT_FILE 2>&1 &
+
+## consume all CPUs
+
+    # single CPU
+    cat /dev/zero > /dev/null
+
+    # multi CPU
+    for i in 1 2 3 4; do while : ; do : ; done & done
+
+
+## consume memory
+
+    MEM=32m
+    mount -t tmpfs none /tmp/tmpfs -o size=${MEM}
+
+    # single shot!
+    dd if=/dev/zero of=/tmp/tmpfs/zero.txt bs=${MEM} count=1
+
+
+    # consume overtime
+    index=0
+    while :
+    do
+      dd if=/dev/zero "of=/tmp/tmpfs/zero-${index}.txt" bs=${MEM} count=1
+      index=$(($index + 100000)))
+
+      sleep 1
+    done
+
+# AWS
+
+## PEM to PUB
+
+    ssh-keygen -y -f aws-delacruzcafe.pem > aws-delacruzcafe.pub

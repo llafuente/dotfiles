@@ -105,3 +105,41 @@ try to run with an override ENTRYPOINT:
 
 Alertnative: modify the script adding `sleep 9999999` before the crash point,
 then `docker cp`.
+
+
+## Clear docker logs
+
+    echo "" > $(docker inspect --format='{{.LogPath}}' ${CONTAINER_ID})
+
+
+## Working with running instances
+
+    CONTAINER_ID=
+    CONTAINER_ID=$(docker ps -a --filter name=xxx -q)
+
+    docker start ${CONTAINER_ID}; docker logs -f ${CONTAINER_ID}
+    docker stop ${CONTAINER_ID}
+
+    # stop first then copy, then start (sometimes it's needed silent fail)
+    docker cp server.js ${CONTAINER_ID}:/micro-gateway/server.js
+    docker cp config-server.js ${CONTAINER_ID}:/app/src/config-server.js
+    docker cp /tmp/xxx ${CONTAINER_ID}:/xxx
+
+
+    docker exec -it ${CONTAINER_ID} /bin/bash
+
+    docker inspect ${CONTAINER_ID}
+    docker logs -f ${CONTAINER_ID}
+    docker rm -f ${CONTAINER_ID}
+
+## Connect two containers
+
+### Same compose
+
+Add the same network in the compose.
+
+### Different compose
+
+After both are up, check networks with docker inspect, then
+
+    docker network connect network-compose1 container-compose2
