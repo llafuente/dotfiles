@@ -13,6 +13,8 @@ create a .gitignore file inside with the following content.
 
     git status --ignored
 
+    git ls-files -o -i --exclude-standard
+
 ## Remotes
 
 https://help.github.com/categories/managing-remotes/
@@ -29,13 +31,13 @@ https://help.github.com/categories/managing-remotes/
 Sync two remotes
 
     # origin2/x is behind, merge origin/x
-    git br -t develop2 origin2/develop
+    git branch -t develop2 origin2/develop
     git co develop2
     git merge origin/develop --no-ff
 
     # now origin2/x is foward, so origin/x rebase
-    git br -D develop
-    git br -t develop origin/develop
+    git branch -D develop
+    git branch -t develop origin/develop
     git co develop
     git rebase develop2
 
@@ -78,8 +80,8 @@ Show what it's going to be commited: show diff staged
 
 Create branches
 
-    git br <name>
-    git co <name>
+    git branch <name>
+    git checkout <name>
 
 Create branches with no history (orphan). Useful for github-pages (gh-pages)
 
@@ -88,19 +90,10 @@ Create branches with no history (orphan). Useful for github-pages (gh-pages)
 
 Sometime branch do not track exactly the origin/branch, use tracking.
 
-    git br -t develop origin/develop
-    git br -t master origin/master
+    git branch -t develop origin/develop
+    git branch -t master origin/master
 
-Delete local branch
-
-    git br -d <branch>
-
-Delete remote branch
-
-    git push --delete origin <branch>
-
-
-clear if invalid
+clear local branches if invalid
 
     git fetch --prune origin
 
@@ -147,6 +140,16 @@ Stats per author
 
     git log --author="Luis Lafuente Morales" --oneline --shortstat -- . ":(exclude)dashboard/src" ":(exclude)dashboard/thin2-fe/src/styles" | grep " file" | awk 'BEGIN {insertions = 0; deletions = 0;} { split($0,a,\",\"); insertions+=a[2]; deletions += a[3]; } END { print \"insertions\", insertions, \" deletions\", deletions; }'
 
+### Delete branches
+
+Delete local branch
+
+    git br -d <branch>
+
+Delete remote branch
+
+    git push --delete origin <branch>
+
 ## BISECT
 
     git bisect start
@@ -188,6 +191,13 @@ Restore (pop) a stash
 
     git stash pop
 
+Restore a single file from specific stash
+
+    git checkout stash@{0} -- <filename>
+
+Show file from a stash
+
+    git show stash@{0}:<filename>
 
 ## PATCHES
 
@@ -289,6 +299,9 @@ Reset/revert last commit
     # preserving local changes in index
     git reset --mixed HEAD~1
 
+Revert file to a previous commit
+
+    git checkout <sha1>~1 -- path-to-file
 
 [rewrite author & email](https://help.github.com/articles/changing-author-info)
 
@@ -396,8 +409,8 @@ Use sed/regex
 
 This maybe needed, depends on how your repo is cloned
 
-    git br -t develop origin/develop
-    git br -t master origin/master
+    git branch -t develop origin/develop
+    git branch -t master origin/master
     git flow init
 
 
@@ -445,3 +458,16 @@ http://gbayer.com/development/moving-files-from-one-git-repository-to-another-pr
 
 
 ## Smart add, only some part of a file
+
+    git add -e file
+
+This let you decide what hunks add to stage.
+
+## Recover a dropped stash in Git
+
+    git fsck --no-reflog
+    # choose any <sha1>
+    git show <sha1>
+
+    # apply to the current working directory
+    git show <sha1> . | git apply -3

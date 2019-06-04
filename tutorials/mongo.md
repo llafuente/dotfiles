@@ -49,7 +49,27 @@ update document with forEach/save
 db.xxx.find( { } ).forEach(
   function(e) {
     // mad science
+    printjson(e);
     db.xxx.save(e); // NOTE: remember to match the collection!
+  }
+)
+```
+
+## fix string to ObjectId
+
+```js
+function toObjectId(v) {
+  return v && "string" === typeof v ? ObjectId(v) : v;
+}
+
+db.collection.find( { } ).forEach(
+  function(e) {
+    print(e._id);
+    e.field = toObjectId(e.field);
+    e.array = (e.array || []).map(x => toObjectId(x));
+    print("done");
+
+    db.collection.save(e);
   }
 )
 ```
