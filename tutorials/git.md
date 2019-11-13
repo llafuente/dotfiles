@@ -63,6 +63,14 @@ Display all changes from file/folder
 
     git log -p <file-or-folder>
 
+Display all changes from file/folder and also changes from merges
+
+    git log -p -c <file-or-folder>
+
+Display all changes from file/folder and also changes from merges and ignore whitespace!!
+
+    git log -p -c -b <file-or-folder>
+
 Change file modes to git ones.
 
     git diff --summary | grep --color 'mode change 100755 => 100644' | cut -d' ' -f7- | xargs -d'\n' chmod +x
@@ -149,6 +157,25 @@ Delete local branch
 Delete remote branch
 
     git push --delete origin <branch>
+
+
+# know if a branch is merged into branch
+
+test *local* branches
+
+master lists branches merged into master
+
+    git branch --merged develop
+
+lists branches merged into HEAD (i.e. tip of current branch)
+
+    git branch --merged
+
+lists branches that have not been merged
+
+    git branch --no-merged
+
+test *origin* branches `-a`, only remotes `-r`
 
 ## BISECT
 
@@ -259,6 +286,10 @@ Add to stage only non-whitespace changes
     git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -
     # Note all whitespace changes are not discarded
 
+Apply a commit into current branch ignore whitespace changes
+
+   git format-patch -b -w -1 c5af3e6 --stdout | git apply
+
 ## TAGS
 
 Remove tag
@@ -288,7 +319,7 @@ Remove local tags that are no longer on the remote repository
 
 Fix last commit, adding new changes / change message
 
-     git commit --amend
+    git commit --amend
 
 Reset/revert last commit
 
