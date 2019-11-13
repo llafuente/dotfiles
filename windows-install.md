@@ -15,7 +15,7 @@ choco config set proxy 'http://10.113.55.36:8080'
 # node.js
 
 ```
-choco install nvm
+choco install -y nvm
 nvm proxy 10.113.55.36:8080
 nvm list available
 nvm install 10.17.0
@@ -25,7 +25,7 @@ nvm install 10.17.0
 # cmder (git)
 
 ```
-choco install cmder
+choco install -y cmder
 
 cmder
 # anclar
@@ -36,9 +36,16 @@ git config --global http.proxy http://10.113.55.36:8080
 
 ```
 # this will install sublimetext without git support, for faster version, the new one is slower, much slower
-choco install sublimetext3 --version=3.1.1
+choco install -y sublimetext3 --version=3.1.1
 
 cd "%APPDATA%\Sublime Text 3\Packages"
 git clone --depth 1 https://github.com/Microsoft/TypeScript-Sublime-Plugin.git TypeScript
 
+```
+
+# Chrome, Firefox
+
+```
+choco install -y googlechrome
+choco install -y firefox
 ```
