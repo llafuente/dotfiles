@@ -22,10 +22,14 @@ nvm install 10.17.0
 ```
 
 
-# cmder
+# cmder (git)
 
 ```
 choco install cmder
+
+cmder
+# anclar
+git config --global http.proxy http://10.113.55.36:8080
 ```
 
 # SublimeText 3
@@ -33,4 +37,8 @@ choco install cmder
 ```
 # this will install sublimetext without git support, for faster version, the new one is slower, much slower
 choco install sublimetext3 --version=3.1.1
+
+cd "%APPDATA%\Sublime Text 3\Packages"
+git clone --depth 1 https://github.com/Microsoft/TypeScript-Sublime-Plugin.git TypeScript
+
 ```
