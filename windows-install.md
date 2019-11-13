@@ -16,9 +16,15 @@ choco config set proxy 'http://10.113.55.36:8080'
 
 ```
 choco install -y nvm
+```
+
+En una nueva ventana cmd
+
+```
 nvm proxy 10.113.55.36:8080
 nvm list available
 nvm install 10.17.0
+nvm use 10.17.0
 ```
 
 
