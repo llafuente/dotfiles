@@ -6,10 +6,20 @@ with admin powershell
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
 $env:chocolateyProxyLocation = 'http://10.113.55.36:8080'
-# ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-.\install.ps1
+
+$proxy = new-object System.Net.WebProxy
+$proxy.Address = (get-itemproperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet
+Settings').ProxyServer
+
+$wc = new-object system.net.WebClient
+$wc.proxy = $proxy
+
+iex $wc.DownloadString('https://chocolatey.org/install.ps1')
+# .\install.ps1
 
 choco config set proxy 'http://10.113.55.36:8080'
+# choco config set proxyUser xxx
+# choco config set proxyPassword yyy
 ```
 
 # node.js
@@ -33,6 +43,11 @@ nvm use 10.17.0
 ```
 choco install -y cmder
 
+```
+
+En una nueva ventana cmd
+
+```
 cmder
 # anclar
 git config --global http.proxy http://10.113.55.36:8080
@@ -49,9 +64,14 @@ git clone --depth 1 https://github.com/Microsoft/TypeScript-Sublime-Plugin.git T
 
 ```
 
-# Chrome, Firefox
+# Others: Chrome, Firefox
 
 ```
 choco install -y googlechrome
 choco install -y firefox
+choco install 7zip.install
+choco install vlc
+choco install virtualbox
 ```
+
+
