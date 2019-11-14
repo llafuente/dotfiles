@@ -8,8 +8,8 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 $env:chocolateyProxyLocation = 'http://10.113.55.36:8080'
 
 $proxy = new-object System.Net.WebProxy
-$proxy.Address = (get-itemproperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet
-Settings').ProxyServer
+$proxy.Address = 'http://10.113.55.36:8080'
+#(get-itemproperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\InternetSettings').ProxyServer
 
 $wc = new-object system.net.WebClient
 $wc.proxy = $proxy
@@ -72,6 +72,8 @@ choco install -y firefox
 choco install 7zip.install
 choco install vlc
 choco install virtualbox
+choco install vscode
+choco install sourcetree
 ```
 
 
