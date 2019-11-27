@@ -69,11 +69,14 @@ git clone --depth 1 https://github.com/Microsoft/TypeScript-Sublime-Plugin.git T
 ```
 choco install -y googlechrome
 choco install -y firefox
-choco install 7zip.install
-choco install vlc
-choco install virtualbox
-choco install vscode
-choco install sourcetree
+choco install -y 7zip.install
+choco install -y vlc
+choco install -y virtualbox
+choco install -y vscode
+choco install -y sourcetree
+choco install -y javaruntime
+choco install -y python2
+choco install -y awscli
 ```
 
 
