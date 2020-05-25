@@ -120,7 +120,7 @@ then `docker cp`.
     docker start ${CONTAINER_ID}; docker logs -f ${CONTAINER_ID}
     docker stop ${CONTAINER_ID}
 
-    # stop first then copy, then start (sometimes it's needed silent fail)
+    # stop first then copy, then start (sometimes it's needed <- silent fail)
     docker cp server.js ${CONTAINER_ID}:/micro-gateway/server.js
     docker cp config-server.js ${CONTAINER_ID}:/app/src/config-server.js
     docker cp /tmp/xxx ${CONTAINER_ID}:/xxx
