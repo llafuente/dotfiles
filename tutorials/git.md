@@ -1,5 +1,60 @@
 # Git sheet
 
+## Configuration
+
+### Multiple ssh keys
+
+Generate a key / pub
+
+```
+ssh-keygen -t rsa -C "luis.lafuente.morales.contractor@bbva.com"
+```
+
+.ssh/config
+
+```
+Host xxx.com
+  HostName xxx.com
+  User llafuente@xxx.com
+  IdentityFile ~/.ssh/xxx-id_rsa
+
+```
+
+### proxy (http protocol)
+
+    # global
+    git config --global http.proxy http://user:pwd@domain.com:8080
+
+    # for a specific domain
+    git config --global http.https://domain.com.proxy http://proxyUsername:proxyPassword@proxy.server.com:port
+    git config --global http.https://domain.com.sslVerify false
+
+### proxy (ssh protocol)
+
+
+#### http proxy
+
+.ssh/config
+
+```
+Host xxx.com
+  HostName xxx.com
+    ProxyCommand connect -H user:pwd@domain.com:8080 %h %p
+  User xxx@yyy.com
+  IdentityFile ~/.ssh/rsa_id
+```
+#### Socks5 proxy
+
+.ssh/config
+
+```
+Host xxx.com
+  HostName xxx.com
+    ProxyCommand connect -S user:pwd@domain.com:8080 %h %p
+  User xxx@yyy.com
+  IdentityFile ~/.ssh/rsa_id
+```
+
 ## .gitignore
 
 ### add empty folder to git
@@ -50,6 +105,20 @@ Merge branch onto branch (Merge the specified branch into the current branch)
     # merge develop onto master
     git co master
     git merge develop --no-ff
+
+## Merge directory
+
+If target branch is ahead at least 2 commits, you are OK
+
+    git merge develop --no-commit --squash
+
+    # now remove unwanted staff fromt stage
+    # new files:
+    git rm --cached <file>
+    # modified files:
+    git co -- <file>
+
+    git commit
 
 ## Working copy
 
@@ -493,6 +562,12 @@ http://gbayer.com/development/moving-files-from-one-git-repository-to-another-pr
     git add -e file
 
 This let you decide what hunks add to stage.
+
+## Add file with executable permission (chmod)
+
+    git update-index --chmod=+x <file>
+    # then, it's already staged
+    git commit
 
 ## Recover a dropped stash in Git
 

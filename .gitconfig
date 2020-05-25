@@ -6,6 +6,11 @@
 
 # git filter-branch --env-filter 'newname="llafuente" newemail="llafuente@noboxout.com" GIT_AUTHOR_EMAIL="$newemail" GIT_COMMITTER_EMAIL="$newemail" GIT_AUTHOR_NAME="$newname" GIT_COMMITTER_NAME="$newname"' HEAD
 
+# windows only!
+# allow credential manager to handle my passwords!
+# [credential]
+#   helper = manager
+
 [color]
     ui = auto
 [core]
