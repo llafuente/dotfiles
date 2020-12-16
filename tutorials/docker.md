@@ -7,6 +7,10 @@ Collection of commands
     docker start --name ${CONTAINER_NAME} ${IMAGE_NAME}
     docker stop ${CONTAINER_NAME}
 
+
+    docker pull ubuntu:latest
+    docker create --name ${CONTAINER_NAME} ubuntu:latest
+
 ## bash inside
 
     docker exec -it XXX bash
@@ -20,7 +24,7 @@ TODO: this is no-swarm-mode only?
 
 ## Remove (container) by name
 
-docker rm -f $(docker ps --filter "name=zuul-nova3" --format "{{.ID}}")
+    docker rm -f $(docker ps --filter "name=zuul-nova3" --format "{{.ID}}")
 
 ## Run docker with root priviledges
 
@@ -37,6 +41,8 @@ docker rm -f $(docker ps --filter "name=zuul-nova3" --format "{{.ID}}")
 ## Remove container and image by name
 
 When you
+
+    CONTAINER_ID=$(docker ps --filter "ancestor=${IMAGE_NAME}" --format "{{.ID}}")
 
     CONTAINER_NAME="a"
     IMAGE_ID=$(docker ps --filter "name=${CONTAINER_NAME}" --format "{{.Image}}")
@@ -143,3 +149,81 @@ Add the same network in the compose.
 After both are up, check networks with docker inspect, then
 
     docker network connect network-compose1 container-compose2
+
+
+## wine
+
+```
+IMAGE=scottyhardy/docker-wine
+docker pull scottyhardy/docker-wine
+docker image rm scottyhardy/docker-wine
+
+docker create --name wine scottyhardy/docker-wine
+
+
+docker start wine -m=1g -a -i
+docker ps -l
+docker logs -f dda0f0b62765
+docker stop wine
+docker rm wine
+
+docker exec -it wine /bin/bash
+
+docker volume create winehome
+
+cd xvfb-run -a wine Ahk2Exe.exe /in
+xvfb-run -a wine Ahk2Exe.exe /in src/bot.ahk /out bin/bot.exe
+
+
+
+docker run -it --rm --hostname="DESKTOP-LEVCF87" --shm-size=1g --volume="winehome:/home/wineuser" --workdir=/home/wineuser --env="USER_NAME=bls" --env="USER_UID=1000" --env="USER_GID=1000" --env="USER_HOME=/home/wineuser" --env="XVFB=yes" --env="XVFB_SERVER=:95" --env="XVFB_SCREEN=0" --env="XVFB_RESOLUTION=640x480x8"  scottyhardy/docker-wine /bin/bash
+
+
+
+/usr/bin/Xvfb :96 -screen 0 640x480x8 &
+export DISPLAY=:96
+winetricks d3dcompiler_43 d3dx9_43 dotnet48
+
+xvfb-run -a wine lib/@rda/autohotkey/Compiler/Ahk2Exe.exe "/in" "src/bot.ahk" "/bin" "lib/@rda/autohotkey/Compiler/Unicode 32-bit.bin" "/icon" "bin/icon_bbva_pps_icon.ico" "/out" "bin/bot2.exe"
+
+
+xvfb-run -a wine Ahk2Exe.exe /in c:\\windows\\src\\bot.ahk /bin "c:\\windows\\Unicode 32-bit.bin" /icon c:\\windows\\bin\\icon_bbva_pps_icon.ico /out c:\\windows\\bot.exe
+
+
+xvfb-run -a wine lib/@rda/autohotkey/Compiler/Ahk2Exe.exe /in "src/bot.ahk" /bin "lib/@rda/autohotkey/Compiler/Unicode 32-bit.bin" /icon "bin/icon_bbva_pps_icon.ico" /out "bin/bot.exe"
+
+
+
+
+docker cp -a d:\bbva\bot 00144beb312c:/home/wineuser/rda
+docker cp -a d:\bbva\bot e346b8f1822b:/home/node/.wine/drive_c/windows/rda
+
+USER_HOME="/home/wineuser"
+USER_VOLUME="winehome"
+XVFB="no"
+XVFB_RESOLUTION="640x480x8"
+XVFB_SCREEN="0"
+XVFB_SERVER=":95"
+
+--hostname="$(hostname)" \
+--volume="winehome:${USER_HOME}"tcp,rw"'
+--workdir=${USER_HOME}
+--env="USER_NAME=$(whoami)" \
+--env="USER_UID=$(id -u)"
+--env="USER_GID=$(id -g)"
+--env="USER_HOME=${USER_HOME}"
+--env="XVFB=yes"
+--env="XVFB_SERVER=${XVFB_SERVER}"
+--env="XVFB_SCREEN=${XVFB_SCREEN}"
+--env="XVFB_RESOLUTION=${XVFB_RESOLUTION}"
+--env="DISPLAY=${XVFB_SERVER}"
+
+
+
+```
+
+```
+docker pull ubuntu:latest
+```
+
+Dockerfile

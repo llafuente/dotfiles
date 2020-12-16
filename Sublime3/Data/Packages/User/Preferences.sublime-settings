@@ -3,6 +3,8 @@
 	[
 		"node_modules/**"
 	],
+  "draw_white_space": "all",
+  "show_line_endings": true,
 	"default_line_ending": "unix",
 	"detect_indentation": false,
 	"ensure_newline_at_eof_on_save": true,

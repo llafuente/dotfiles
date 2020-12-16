@@ -45,3 +45,8 @@ Data > Named ranges > Add a range
   )
 )
 ```
+
+
+# change date language
+
+File -> Spreadsheet settings -> Locale -> UK
