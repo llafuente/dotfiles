@@ -1,5 +1,25 @@
 # Mongodb sheet
 
+## windows installation
+
+download: MongoDB Community Server
+download: MongoDB Community compass
+
+
+From an `Administrator cmd`
+```
+msiexec.exe /l*v mdbinstall.log  /qb /i mongodb-windows-x86_64-4.4.1-signed.msi ADDLOCAL="ServerNoService"
+
+msiexec.exe /l*v mdbinstall.log  /qb /i mongodb-windows-x86_64-4.4.1-signed.msi ^
+            ADDLOCAL="ServerService,Client" ^
+            SHOULD_INSTALL_COMPASS="0"
+
+cd C:\
+md "\data\db"
+# --bind_ip 0.0.0.0 # open to network
+"C:\Program Files\MongoDB\Server\4.4\bin\mongod.exe" --dbpath="c:\data\db"
+```
+
 ## binary backup
 
   sudo cp -rf /var/lib/mongo/* .
