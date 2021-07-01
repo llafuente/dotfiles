@@ -103,6 +103,15 @@ $RDPsessionID = $CleanQwinstaArray[2]
 .\psexec -accepteula -i $RDPsessionID "\\computername" -u "domain\username" -p "password" "calc.exe"
 ```
 
+## force rdp resolution
+
+Edit rdp file, and overwrite
+
+```
+screen mode id:i:1
+desktopwidth:i:1960
+desktopheight:i:1080
+```
 
 # Task scheduler
 
@@ -138,4 +147,21 @@ $Password = Read-Host "Password" -AsSecureString
 $userName="IMM0966"
 
 cmdkey /add:domain-no-port /user:$userName /pass:$Password
+```
+
+
+# How to map network drives with multiple credentials per file server?
+
+```
+net use <driveletter>: \\<server1>\<sharename> /User:UserA PasswordA
+net use <driveletter>: \\<server2>\<sharename> /User:UserB PasswordB
+
+net use \\<server2>\<sharename> /del
+net use <driveletter>: /del
+
+@rem /PERSISTENT:YES
+
+notepad c:\windows\system32\drivers\etc\hosts
+@rem add
+server1 server2
 ```

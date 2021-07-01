@@ -55,6 +55,16 @@ Host xxx.com
   IdentityFile ~/.ssh/rsa_id
 ```
 
+## .gitattributes
+
+### force files to use lf/crlf (end line char)
+
+```
+*.linux text eol=lf
+*.window text eol=crlf
+```
+
+
 ## .gitignore
 
 ### add empty folder to git
@@ -340,9 +350,11 @@ Get file from stash (useful to make partial patches in working copy)
 
     git checkout 'stash@{0}' -- <path-to-file>
 
-Get file from history (restore file)
+Get file from history (restore deleted file)
 
+    git log -- <path-to-file> # find the file in the log -> <sha1>
     git checkout <sha1> -- <path-to-file>
+    git checkout <sha1>~1 -- <path-to-file> # if the file was deleted
 
 Get a file from index
 
@@ -573,7 +585,17 @@ http://gbayer.com/development/moving-files-from-one-git-repository-to-another-pr
 
     git add -e file
 
-This let you decide what hunks add to stage.
+Let you edit the diff to be added
+
+    git add -p file
+
+Let you decide what hunks (small portions of code) add to stage.
+
+Usefull comands:
+
+y - stage this hunk
+n - do not stage this hunk
+s - split the current hunk into smaller hunks
 
 ## Add file with executable permission (chmod)
 

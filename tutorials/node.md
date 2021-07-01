@@ -13,6 +13,10 @@ at .npmrc
 
     proxy=http://user:password@proxy-url:8080
 
+set globally
+
+    npm set http http://user:password@proxy-url:8080
+
 ## Download module using curl /republish in another repository
 
     PACKAGE="rimraf"
