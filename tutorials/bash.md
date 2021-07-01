@@ -6,6 +6,11 @@ This is just a collection of small scripts
 
     find . -type l ! -exec test -e {} \; -print
 
+## Remove file/folder (deep) by pattern
+
+
+    find . | grep "pattern" | while read line; do rm -rf "$line";done;
+
 ## Remove broken links
 
     symlinks -dr <path> # sudo apt-get install symlinks

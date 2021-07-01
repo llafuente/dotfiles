@@ -2,13 +2,27 @@
 
 https://www.autohotkey.com/docs/KeyList.htm
 
+https://project-awesome.org/ahkscript/awesome-AutoHotkey#clipboard
+
 # Arrays
 
 ```autohotkey
 x := []
 msgbox % x.MaxIndex() ; ""
+msgbox % x.Length() ; 0
 x.Push(1)
 msgbox % x.MaxIndex() ; 1
+msgbox % x.Length() ; 1
+```
+
+# Strings
+
+```autohotkey
+x := "xxx"
+x =
+(
+multiline
+)
 ```
 
 # structs
@@ -44,4 +58,26 @@ Return DllCall( "MulDiv", int,@, int,1, int,1, "Str" )
     scheme := StrGet(NumGet(myStruct,4,"Ptr"),NumGet(myStruct,8,"UInt"))
     port := NumGet(myStruct,24,"Int")
 
+```
+
+
+Windows types
+```
+BOOL uint INT
+HRESULT ptr INT
+LANGID short USHORT
+LPCSTR ptr ASTR
+LPCTSTR ptr STR
+LPCWSTR ptr WSTR
+LPSTR ptr ASTR
+LPTSTR ptr STR
+LPWSTR ptr WSTR
+LRESULT ptr UINT
+PCSTR ptr ASTR
+PCTSTR ptr STR
+PCWSTR ptr WSTR
+PSTR ptr ASTR
+PTSTR ptr STR
+PWSTR ptr WSTR
+WCHAR short USHORT
 ```

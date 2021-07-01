@@ -23,6 +23,10 @@ y map[string]int = {
   "xxx": 999,
   "yyy": 888,
 }
+
+# uninitialized
+var client http.Client{}
+
 ```
 ## send empty
 
@@ -75,6 +79,24 @@ xxx(params)
 ```go
 if err := x(); err != nil {
   panic(err)
+}
+```
+
+## recover from panic and return a value
+
+```go
+func main() {
+    fmt.Println("Returned:", MyFunc())
+}
+
+func MyFunc() (ret string) {
+    defer func() {
+        if r := recover(); r != nil {
+            ret = fmt.Sprintf("was panic, recovered value: %v", r)
+        }
+    }()
+    panic("test")
+    return "Normal Return Value"
 }
 ```
 
