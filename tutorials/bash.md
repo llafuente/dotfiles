@@ -2,12 +2,19 @@
 
 This is just a collection of small scripts
 
+## List files by pattern
+
+    find . -type f -name *.ahk
+
+## Search file contents filtered by file pattern
+
+    find . -type f  -name *.ahk -a -exec grep -H TEXT '{}' \;
+
 ## List broken links
 
     find . -type l ! -exec test -e {} \; -print
 
 ## Remove file/folder (deep) by pattern
-
 
     find . | grep "pattern" | while read line; do rm -rf "$line";done;
 

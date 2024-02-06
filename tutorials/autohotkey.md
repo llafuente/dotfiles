@@ -81,3 +81,5 @@ PTSTR ptr STR
 PWSTR ptr WSTR
 WCHAR short USHORT
 ```
+
+more: https://www.autohotkey.com/boards/viewtopic.php?t=30497
