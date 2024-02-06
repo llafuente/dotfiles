@@ -2,6 +2,25 @@
 
 ## Configuration
 
+### Save HTTP user/password
+
+#### Memory
+
+```
+git config --global credential.helper cache
+# timeout config in seconds
+git config --global credential.helper 'cache --timeout=3600'
+```
+
+#### File
+
+```
+git config --global credential.helper store
+git pull
+```
+
+Password are saved at `~/.git-credentials`
+
 ### Multiple ssh keys
 
 Generate a key / pub
@@ -153,6 +172,10 @@ Remove all locally deleted files
 Display all changes from file/folder
 
     git log -p <file-or-folder>
+
+Display all changes from file/folder even if the file/folder was renamed
+
+    git log -p --follow <file-or-folder>
 
 Display all changes from file/folder and also changes from merges
 

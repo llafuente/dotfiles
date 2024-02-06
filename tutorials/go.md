@@ -28,10 +28,20 @@ y map[string]int = {
 var client http.Client{}
 
 ```
-## send empty
+## send empty value
 
 ```go
 xxx(map[string]string{})
+```
+
+## return an error
+
+```go
+import ("errors")
+
+func xxx() err {
+  return errors.New("empty name")
+}
 ```
 
 ## array
