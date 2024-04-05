@@ -1,4 +1,4 @@
-  # Typescript snippets
+# Typescript snippets
 
 
 ## declare Object with any key and value
@@ -25,22 +25,19 @@ abstract class XXX {
 }
 ```
 
-## getter
+
+## getter/setter
 
 ```ts
-class XXX {
-  get quantity() : number {
-    return ?
-  }
-}
-```
+class Person {
+    private _age: number;
+ 
+    public get age() {
+        return this._age;
+    }
 
-## setter
-
-```ts
-class XXX {
-  set quantity(value: number) {
-    this.? = value
-  }
+    public set age(theAge: number) {
+        this._age = theAge;
+    }
 }
 ```

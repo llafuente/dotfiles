@@ -2,25 +2,6 @@
 
 ## Configuration
 
-### Save HTTP user/password
-
-#### Memory
-
-```
-git config --global credential.helper cache
-# timeout config in seconds
-git config --global credential.helper 'cache --timeout=3600'
-```
-
-#### File
-
-```
-git config --global credential.helper store
-git pull
-```
-
-Password are saved at `~/.git-credentials`
-
 ### Multiple ssh keys
 
 Generate a key / pub
@@ -73,6 +54,15 @@ Host xxx.com
   User xxx@yyy.com
   IdentityFile ~/.ssh/rsa_id
 ```
+## SSL problems
+
+### SSL certificate problem: self signed certificate in certificate chain
+
+Solution (you shouldn't use `--global`):
+
+> git config --local http.sslVerify false
+
+https://confluence.atlassian.com/fishkb/unable-to-clone-git-repository-due-to-self-signed-certificate-376838977.html
 
 ## .gitattributes
 
@@ -173,10 +163,6 @@ Display all changes from file/folder
 
     git log -p <file-or-folder>
 
-Display all changes from file/folder even if the file/folder was renamed
-
-    git log -p --follow <file-or-folder>
-
 Display all changes from file/folder and also changes from merges
 
     git log -p -c <file-or-folder>
@@ -205,7 +191,7 @@ Create branches
     git branch <name>
     git checkout <name>
 
-Create branches with no history (orphan). Useful for github-pages (gh-pages)
+Create branches with no history (orphan/clean). Useful for github-pages (gh-pages)
 
     git checkout --orphan <name>
 

@@ -1,46 +1,21 @@
 # python
 
-# language
+## pip
 
-## return multiple values (tuple)
+### Configure pip proxy
 
-```
-def fun():
-    str = "str"
-    x   = 20
-    return str, x; # aka (str, x)
+> pip config set global.proxy http://user:pwd@host:port
 
-str, x = fun() # Assign returned tuple
-print(str)
-print(x)
-```
+### list modules
 
-## Objects / Dictionary
+> pip list
 
-### key exists
+> pip freeze
 
-```
-if 'x' in obj:
-```
+### Install specific version
 
-### delete key
+> pip install py2exe==0.10.4.1
 
-```
-del self.headers["Content-Type"]
-```
+### Remove all packages
 
-# PIP
-
-## install specific version
-
-```
-pip install httplib2==0.19.1
-```
-
-## remove all pip modules
-
-```
-pip3 freeze > modules.txt
-pip3 uninstall -r modules.txt -y
-```
-
+> pip freeze | xargs pip uninstall -y

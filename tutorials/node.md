@@ -7,15 +7,17 @@
 
 # npm
 
-## proxy
+## proxy (Configuring a corporate proxy)
 
-at .npmrc
+at `.npmrc` (locally)
 
     proxy=http://user:password@proxy-url:8080
+    proxy-https=http://user:password@proxy-url:8080
 
-set globally
+at `~/.npmrc` (globally)
 
-    npm set http http://user:password@proxy-url:8080
+    npm config set proxy http://user:password@proxy-url:8080
+    npm config set proxy-https http://user:password@proxy-url:8080
 
 ## Download module using curl /republish in another repository
 
