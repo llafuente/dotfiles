@@ -8,6 +8,14 @@ Meant to developer (from other languages) migration guide.
 
 https://play.golang.org/
 
+
+# Var declaration
+
+```go
+var filterEXE string = ""
+filterEXE := ""
+```
+
 # maps / objects / dictionaries
 
 ## type / declaration
@@ -28,20 +36,10 @@ y map[string]int = {
 var client http.Client{}
 
 ```
-## send empty value
+## send empty
 
 ```go
 xxx(map[string]string{})
-```
-
-## return an error
-
-```go
-import ("errors")
-
-func xxx() err {
-  return errors.New("empty name")
-}
 ```
 
 ## array
@@ -107,6 +105,49 @@ func MyFunc() (ret string) {
     }()
     panic("test")
     return "Normal Return Value"
+}
+```
+
+# pointers
+
+```go
+type Project struct {
+  Id string
+}
+
+var project *Project
+
+project = &Project{
+  Id: "xxx",
+}
+```
+
+# read json file
+
+```go
+import (
+  "io/ioutil"
+  "encoding/json"
+  "errors"
+)
+
+type RDAJSON struct {
+  Project         RDAJSONProject            `json:"project"`
+}
+
+func ReadRDAJSON(rdaJSONPath string) (*RDAJSON, error) {
+  payload, err := ioutil.ReadFile(rdaJSONPath)
+  if err != nil {
+    return nil, err
+  }
+
+  var rdajson *RDAJSON
+  err = json.Unmarshal(payload, &rdajson)
+  if err != nil {
+    return nil, errors.New("Invalid JSON file: " + rdaJSONPath + "\nOriginal error: " + err.Error())
+  }
+
+  return rdajson, nil
 }
 ```
 
