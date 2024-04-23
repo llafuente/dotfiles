@@ -5,11 +5,12 @@ with admin powershell
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
-$env:chocolateyProxyLocation = 'http://10.113.55.36:8080'
+$env:chocolateyProxyLocation = 'http://xxx:xxx@proxy:8080'
 
 $proxy = new-object System.Net.WebProxy
-$proxy.Address = 'http://10.113.55.36:8080'
-#(get-itemproperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\InternetSettings').ProxyServer
+$proxy.Address = 'http://xxx:xxx@proxy:8080'
+# use the same as windows?
+#$proxy.Address = (get-itemproperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\InternetSettings').ProxyServer
 
 $wc = new-object system.net.WebClient
 $wc.proxy = $proxy
@@ -17,9 +18,9 @@ $wc.proxy = $proxy
 iex $wc.DownloadString('https://chocolatey.org/install.ps1')
 # .\install.ps1
 
-choco config set proxy 'http://10.113.55.36:8080'
-# choco config set proxyUser xxx
-# choco config set proxyPassword yyy
+choco config set proxy 'http://proxy:8080'
+choco config set proxyUser xxx
+choco config set proxyPassword yyy
 ```
 
 # node.js
@@ -31,18 +32,24 @@ choco install -y nvm
 En una nueva ventana cmd
 
 ```
-nvm proxy 10.113.55.36:8080
+nvm proxy xxx:xxx@proxy:8080
 nvm list available
 nvm install 10.17.0
 nvm use 10.17.0
 ```
 
+El proxy de npm se configura en %HOME%\.npmrc
+
+```ini
+proxy=http://xxx:xxx@proxy:8080/
+https-proxy=http://xxx:xxx@proxy:8080/
+strict-ssl=false
+```
 
 # cmder (git)
 
 ```
 choco install -y cmder
-
 ```
 
 En una nueva ventana cmd
@@ -50,7 +57,7 @@ En una nueva ventana cmd
 ```
 cmder
 # anclar
-git config --global http.proxy http://10.113.55.36:8080
+git config --global http.proxy http://xxx:xxx@proxy:8080
 ```
 
 # SublimeText 3
@@ -59,9 +66,19 @@ git config --global http.proxy http://10.113.55.36:8080
 # this will install sublimetext without git support, for faster version, the new one is slower, much slower
 choco install -y sublimetext3 --version=3.1.1
 
+https://packagecontrol.io/Package%20Control.sublime-package
+
 cd "%APPDATA%\Sublime Text 3\Packages"
+
+# Typescript autocomplete
 git clone --depth 1 https://github.com/Microsoft/TypeScript-Sublime-Plugin.git TypeScript
 
+# AHK Highlight and snippet/autocomplete
+git clone --depth 1 https://github.com/ahkscript/SublimeAutoHotkey.git AutoHotkey
+
+# Copy as HTML
+# Copy as RTF
+git clone --depth 1 --branch python3 https://github.com/n1k0/SublimeHighlight.git SublimeHighlight
 ```
 
 # Others: Chrome, Firefox
