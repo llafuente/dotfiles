@@ -147,3 +147,11 @@ for ($i=0; $i -le $max_iterations; $i++)
     Write-Host "STDOUT: " + (Get-Content $stdout_file)
 }
 ```
+
+# Create file
+
+> New-Item -Path . -Name "testfile1.txt" -ItemType "file" -Value "This is a text string."
+
+# Create folder / directory
+
+> New-Item -Path "c:\" -Name "logfiles" -ItemType "directory"
