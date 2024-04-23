@@ -28,6 +28,14 @@ start /B process.exe
 exit 1
 ```
 
+## Start another batch file (.bat)
+
+```bat
+call xxx.bat
+```
+
+If `call` is not used the script will be executed but no more lines of the current file.
+
 # Output redirection
 
 ## Redirect stdout
@@ -150,4 +158,14 @@ if errorlevel 255 (
   ) else if errorlevel 0 (
     @REM CTRL+C
   )
+```
+
+# Misc
+
+## npm
+
+calling npm inside a batch script will stop the script, because npm is a bat file.
+
+```bat
+call npm.cmd run build
 ```

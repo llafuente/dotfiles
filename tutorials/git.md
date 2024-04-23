@@ -422,6 +422,12 @@ Remove local tags that are no longer on the remote repository
 Fix last commit, adding new changes / change message
 
     git commit --amend
+    # optional use current author: --reset-author
+    # optional force author: --author="Author Name <email@address.com>"
+
+Change a range of commits author
+
+    git rebase --onto <sha1> --exec "git commit --amend --author=\"Foo Name <foo@bar.com>\"" <sha1>
 
 Reset/revert last commit
 
