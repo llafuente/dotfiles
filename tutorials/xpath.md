@@ -49,6 +49,10 @@ left match
 
     //*[starts-with(normalize-space(), 'text')]
 
+right match
+
+    //*[ends-with(normalize-space(), 'text')]
+
 partial match
 
     //*[contains(normalize-space(), 'text')]"
@@ -74,6 +78,22 @@ by id
 ## select nth element
 
     (//*)[n]
+
+## select element with no attributes
+
+    //*[count(@*)=0]
+
+
+## Select Nodes with no attributes OR all empty
+
+    //*[not(@*) or not(string-length(@*))]
+
+
+## Select deepest node
+Note: The node selected won't match the precious selection. It will get the deepest of the precious selection.
+
+    xpath/descendant::*[last()]
+
 
 # Examples
 
