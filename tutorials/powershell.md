@@ -155,3 +155,59 @@ for ($i=0; $i -le $max_iterations; $i++)
 # Create folder / directory
 
 > New-Item -Path "c:\" -Name "logfiles" -ItemType "directory"
+
+# Enable remote session
+
+> Enable-PSRemoting
+
+## troubleshooting
+
+Check firewall
+
+> Get-NetFirewallRule -Name *winrm*
+
+Check service
+
+> get-service winrm
+
+Check configuration
+
+> winrm g winrm/config
+
+## Connecting
+
+```ps1
+$computers = "COMP01", "COMP02", "COMP03"
+$user = "DOMAIN\USER"
+$cred = Get-Credential -UserName $user -Message "Credenciales $user"
+$session = New-PSSession -ComputerName $computers -Credential $cred
+```
+
+## remote execute command
+
+Multiple computers (using session)
+
+> Invoke-Command -Session $session { <command [;]> }
+
+Single computer execution
+
+> Invoke-Command -ComputerName Computer -ScriptBlock { Get-UICulture }
+
+## Copy from local to remote
+
+> Copy-Item "<from-local>" -Destination "<to-remote>" -ToSession $session
+
+## Copy from remote to local
+
+> Copy-Item "<from-remote>" -Destination "<to-local>" -FROMSession $session
+
+# Check promnt has administrator priviledges / is admin
+
+> $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+> $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
+# Force my script to require admin priviledges
+
+https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_requires
+
+> #Requires -RunAsAdministrator
