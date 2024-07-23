@@ -1,3 +1,38 @@
+# arrays & objects
+
+## declare array
+
+```powershell
+$numbers = @(1, 2, 3, 4)
+# add
+$numbers += 5
+
+# array of arrays
+$myItems =  ("Joe",32,"something about him"), ("Sue",29,"something about her")
+
+# array of objects, based on a CSV input
+$numbers = "1","2","3","4"
+numbers = $numbers | ConvertFrom-Csv -Header value
+```
+
+## loop
+
+```ps1
+foreach ($element in $numbers) {
+  $element
+}
+```
+
+## declare custom objects
+
+```powershell
+# literal
+[pscustomobject]@{hostname="W8120CVROB15";user=$XXX;env=$P;info="RDA"}
+# iterative
+$object = New-Object -TypeName PSObject
+$object | Add-Member -Name 'Name' -MemberType Noteproperty -Value 'Joe'
+```
+
 # hide promnt
 
 ```
@@ -36,10 +71,14 @@ just one
 
 # RDP shadow
 
-$server = 
-
-$session = (query session /SERVER:$server) -replace '\s{2,}', ',' | ConvertFrom-Csv | Select-Object -Property SESSIONNAME,USERNAME,ID,STATE,TYPE,DEVICE |Out-GridView -PassThru
-mstsc /shadow: $session.ID /control /v: $server
+```powershell
+$server = "W8120CVROB10"
+$session = (query session /SERVER:$server) -replace '\s{2,}', ',' | ConvertFrom-Csv | Select-Object -Property SESSIONNAME,USERNAME,ID,STATE,TYPE,DEVICE | Out-GridView  -OutputMode Single
+#pure shadow
+mstsc /shadow: $session.ID /noConsentPrompt /v: $server
+# shadow + control
+# mstsc /shadow: $session.ID /control /v: $server
+```
 
 # Execute a process wait and kill a process
 
@@ -181,6 +220,12 @@ $computers = "COMP01", "COMP02", "COMP03"
 $user = "DOMAIN\USER"
 $cred = Get-Credential -UserName $user -Message "Credenciales $user"
 $session = New-PSSession -ComputerName $computers -Credential $cred
+```
+
+## Disconnecting
+
+```ps1
+Remove-PSSession $session
 ```
 
 ## remote execute command
