@@ -1,3 +1,75 @@
+# if
+
+More: https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-if?view=powershell-7.4
+
+## Operators
+
+| operators | Description                                       |
+| --------- | ------------------------------------------------- |
+| -eq, -ieq | equal case insensitive                            |
+| -ceq      | equal case insensitive                            |
+| -ne, -ine | not equal case insensitive                        |
+| -cne      | not equal case sensitive                          |
+| -gt, -igt | greater than case insensitive                     |
+| -cgt      | greater than case sensitive                       |
+| -ge, -ige | greater or equal than case insensitive            |
+| -cge      | greater or equal than case sensitive              |
+| -lt, -ilt | less than case insensitive                        |
+| -clt      | less than case sensitive                          |
+| -le, -ile | less or equal than case insensitive               |
+| -cle      | less or equal than case sensitive                 |
+
+## like 
+| operators           | Description                             |
+| ------------------- | --------------------------------------- |
+| -like, -ilike       | case-insensitive wildcard               |
+| -clike              | case-sensitive wildcard                 |
+| -notlike, -inotlike | case-insensitive wildcard not matched   |
+| -cnotlike           | case-sensitive wildcard not matched     |
+
+> ? matches any single character
+
+> * matches any number of characters
+
+```ps1
+$value = 'S-ATX-SQL01'
+if ( $value -like 'S-???-*')
+{
+    # do something
+}
+```
+
+## regex
+
+| operators             | Description                           |
+| --------------------- | ------------------------------------- |
+| -match, -imatch       | case-insensitive regex                |
+| -cmatch               | case-sensitive regex                  |
+| -notmatch, -inotmatch | case-insensitive regex not matched    |
+| -cnotmatch            | case-sensitive regex not matched      |
+
+```ps1
+$value = 'S-ATX-SQL01'
+if ( $value -match '^S.*$')
+{
+    # do something
+}
+```
+
+## type 
+
+| operators             | Description                           |
+| --------------------- | ------------------------------------- |
+| -is                   | of type                               |
+| -isnot                | not of type                           |
+
+```ps1
+if ( $Service -isnot [System.ServiceProcess.ServiceController] )
+{
+    $Service = Get-Service -Name $Service
+}
+```
+
 # arrays & objects
 
 ## declare array
