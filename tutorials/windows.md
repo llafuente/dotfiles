@@ -282,6 +282,7 @@ Specific to current user session
 reg query "HKCU\Environment"
 reg query "HKCU\Volatile Environment"
 ```
+
 # Get current process environment variables
 
 "current" -> console
@@ -292,7 +293,6 @@ Get-child $x
 
 # alternative
 Get-ChildItem env:
-
 ```
 
 ```cmd
@@ -301,7 +301,8 @@ env
 
 # get all users priviledges
 
-NOTE user: accesschk
+NOTE use: accesschk
+
 ```powershell
 gwmi Win32_UserProfile | foreach-object {
  $sid = New-Object System.Security.Principal.SecurityIdentifier($_.SID)
@@ -320,20 +321,21 @@ gwmi Win32_UserProfile | foreach-object {
 whoami /priv
 ```
 
-
+```ps1
         $lsa = New-Object PS_LSA.LsaWrapper('W8120CVROB16')
         foreach ($Acct in $Account) {
             $output = @{'Account'=$Acct; 'Right'=$lsa.EnumerateAccountPrivileges($Acct); }
             Write-Output (New-Object -Typename PSObject -Prop $output)
         }
+```
 
-
+```cmd
 accesschk64.exe -p -f 16784 -l -i -s
-
+```
 
 # Query Windows Events
 
-```cmd
+```ps1
 $StartTime = (get-date).AddHours(-1)
 $EndTime = (get-date)
 $EventData = Get-WinEvent -FilterHashtable @{}
@@ -350,7 +352,15 @@ $EventData | ForEach {
         Message=$_.Message
     }
 }
+```
 
+```ps1
+$A = @{}
+$A.Add("StartTime", ((Get-Date).AddHours(-1)))
+$A.Add("EndTime", (Get-Date))
+$A.Add("LogName", "System")
+$A.Add("ProviderName", "*UpdateClient")
+Get-WinEvent -FilterHashtable $A
 ```
 ## Shutdowns
 
@@ -362,4 +372,10 @@ $EventData | ForEach {
 
 ```
 @{LogName='Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational';StartTime=$StartTime;EndTime=$EndTime;ID=1149}
+```
+
+## Get provider name list
+
+```ps1
+Get-WinEvent -ListProvider * 
 ```
