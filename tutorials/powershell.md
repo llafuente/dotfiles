@@ -74,7 +74,7 @@ if ( $Service -isnot [System.ServiceProcess.ServiceController] )
 
 ## declare array
 
-```powershell
+```ps1
 $numbers = @(1, 2, 3, 4)
 # add
 $numbers += 5
@@ -97,7 +97,7 @@ foreach ($element in $numbers) {
 
 ## declare custom objects
 
-```powershell
+```ps1
 # literal
 [pscustomobject]@{hostname="W8120CVROB15";user=$XXX;env=$P;info="RDA"}
 # iterative
@@ -105,27 +105,51 @@ $object = New-Object -TypeName PSObject
 $object | Add-Member -Name 'Name' -MemberType Noteproperty -Value 'Joe'
 ```
 
+# classes
+```ps1
+class Base {
+  [Type] $xxx
+  Base() {}
+  Base([Type] $xxx) {
+    $this.xxx = $xxx
+  }
+  [void] method([Type] $A, [Type] $B) {}
+}
+class Child: Base {
+    Child() : Base() {}
+}
+
+#instancing
+$a = [Base]::new()
+$b = [Child]::new()
+# type is necessary or Object[] will be used!
+[Base[]] $list = @($a, $b)
+
+# print type
+Write-Host ($a.GetType() | Format-Table | Out-String)
+```
+
 # hide promnt
 
-```
+```ps1
 function prompt { " `b" }
 function prompt { echo " `b" }
 ```
 
 When running scripts
-```
+```ps1
 powershell -NoExit -Command "function prompt { echo " &#x60;b" }"
 ```
 
 # hide echo command (@echo off)
 
 All commands
-```
+```ps1
 Set-PSDebug -Off
 ```
 
 just one
-```
+```ps1
 @something
 ```
 
@@ -139,11 +163,13 @@ just one
 
 # tab char
 
-> ConvertFrom-Csv  .\test.csv -Delimiter "`t"
+```ps1
+ConvertFrom-Csv  .\test.csv -Delimiter "`t"
+```
 
 # RDP shadow
 
-```powershell
+```ps1
 $server = "W8120CVROB10"
 $session = (query session /SERVER:$server) -replace '\s{2,}', ',' | ConvertFrom-Csv | Select-Object -Property SESSIONNAME,USERNAME,ID,STATE,TYPE,DEVICE | Out-GridView  -OutputMode Single
 #pure shadow
@@ -158,7 +184,7 @@ Expect the process to die/errored before the kill.
 
 Stop on the first error (exitCode != 0)
 
-```powershell
+```ps1
 # script config
 $pwd = Get-Location
 $cwd = "C:\Program Files\SeleniumBasic"
@@ -209,7 +235,7 @@ for ($i=0; $i -le $max_iterations; $i++)
 
 # execute a process until it fails
 
-```powershell
+```ps1
 # script config
 $pwd = Get-Location
 $cwd = "C:\Users\USR_RDACIB\Desktop\"
@@ -261,29 +287,41 @@ for ($i=0; $i -le $max_iterations; $i++)
 
 # Create file
 
-> New-Item -Path . -Name "testfile1.txt" -ItemType "file" -Value "This is a text string."
+```ps1
+New-Item -Path . -Name "testfile1.txt" -ItemType "file" -Value "This is a text string."
+```
 
 # Create folder / directory
 
-> New-Item -Path "c:\" -Name "logfiles" -ItemType "directory"
+```ps1
+New-Item -Path "c:\" -Name "logfiles" -ItemType "directory"
+```
 
 # Enable remote session
 
-> Enable-PSRemoting
+```ps1
+Enable-PSRemoting
+```
 
 ## troubleshooting
 
 Check firewall
 
-> Get-NetFirewallRule -Name *winrm*
+```ps1
+Get-NetFirewallRule -Name *winrm*
+```
 
 Check service
 
-> get-service winrm
+```ps1
+get-service winrm
+```
 
 Check configuration
 
-> winrm g winrm/config
+```ps1
+winrm g winrm/config
+```
 
 ## Connecting
 
@@ -304,27 +342,40 @@ Remove-PSSession $session
 
 Multiple computers (using session)
 
-> Invoke-Command -Session $session { <command [;]> }
+```ps1
+Invoke-Command -Session $session { <command [;]> }
+```
 
 Single computer execution
 
-> Invoke-Command -ComputerName Computer -ScriptBlock { Get-UICulture }
+```ps1
+Invoke-Command -ComputerName Computer -ScriptBlock { Get-UICulture }
+```
 
 ## Copy from local to remote
 
-> Copy-Item "<from-local>" -Destination "<to-remote>" -ToSession $session
+```ps1
+Copy-Item "<from-local>" -Destination "<to-remote>" -ToSession $session
+```
 
 ## Copy from remote to local
 
-> Copy-Item "<from-remote>" -Destination "<to-local>" -FROMSession $session
+```ps1
+Copy-Item "<from-remote>" -Destination "<to-local>" -FROMSession $session
+```
 
 # Check promnt has administrator priviledges / is admin
 
-> $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-> $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+```ps1
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+```ps1
 
 # Force my script to require admin priviledges
 
 https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_requires
 
-> #Requires -RunAsAdministrator
+```ps1
+#Requires -RunAsAdministrator
+```
+
