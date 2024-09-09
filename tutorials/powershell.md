@@ -1,3 +1,25 @@
+# string interpolation
+
+$person = [pscustomobject]@{Name= "xxx";}
+$a = 10;
+$b = 5;
+
+## single value
+Write-Host $person
+Write-Host $person.Name
+
+## string interpolation
+Write-Host "Name: $($person.Name)"
+## math is allowed
+Write-Host "$($a - $b)"
+## command execution
+Write-Host "$(Get-Item .)"
+## execute a command and then pick something
+Write-Host "$($(Get-ChildItem)[0])"
+Write-Host "$($(Get-ChildItem)[0].Name)"
+
+
+
 # if
 
 More: https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-if?view=powershell-7.4
@@ -72,11 +94,12 @@ if ( $Service -isnot [System.ServiceProcess.ServiceController] )
 
 # arrays & objects
 
-## declare array
+## static arrays
 
 ```ps1
+# getType() = System.Array
 $numbers = @(1, 2, 3, 4)
-# add
+# add (it will create another array)
 $numbers += 5
 
 # array of arrays
@@ -87,11 +110,32 @@ $numbers = "1","2","3","4"
 numbers = $numbers | ConvertFrom-Csv -Header value
 ```
 
-## loop
+## Dynamic array (list)
+
+```ps1
+$list = [System.Collections.ArrayList]@()
+$list.Add(1)
+$list.Add(2)
+$list.Add(3)
+```
+
+## loops
 
 ```ps1
 foreach ($element in $numbers) {
   $element
+}
+
+for (($i = 0), ($j = 0); $i -lt 10; $i++)
+{
+    "`$i:$i"
+    "`$j:$j"
+}
+
+do {
+} while($true)
+
+while($true) {
 }
 ```
 
