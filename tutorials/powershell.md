@@ -1,24 +1,66 @@
+# values
+
+```ps1
+$true
+$false
+$null
+```
+
+# variables
+
+```ps1
+# variables starts with dollar
+# if type lhs type is enforced
+[int]$number = 10;
+$number.getType() # Int32
+[float]$number = 10;
+$number.getType() # Single
+$str = "abcdef"; # [String]
+$arr = @(1,2,3) # Object[]
+# class instance 
+$obj = [class]::New(1,2,3) # class
+```
+
 # string interpolation
 
+```ps1
 $person = [pscustomobject]@{Name= "xxx";}
 $a = 10;
 $b = 5;
+```
 
 ## single value
+
+```ps1
 Write-Host $person
 Write-Host $person.Name
+```
 
 ## string interpolation
+
+```ps1
 Write-Host "Name: $($person.Name)"
+```
+
 ## math is allowed
+
+```ps1
 Write-Host "$($a - $b)"
-## command execution
+```
+
+## command execution / expression
+
+```ps1
 Write-Host "$(Get-Item .)"
+Write-Host "$(if ($true) { Get-Item . }  else { $null })"
+```
+
 ## execute a command and then pick something
+
+```ps1
 Write-Host "$($(Get-ChildItem)[0])"
 Write-Host "$($(Get-ChildItem)[0].Name)"
-
-
+```
 
 # if
 
@@ -92,6 +134,26 @@ if ( $Service -isnot [System.ServiceProcess.ServiceController] )
 }
 ```
 
+# loops
+
+```ps1
+foreach ($element in $numbers) {
+  $element
+}
+
+for (($i = 0), ($j = 0); $i -lt 10; $i++)
+{
+    "`$i:$i"
+    "`$j:$j"
+}
+
+do {
+} while($true)
+
+while($true) {
+}
+```
+
 # arrays & objects
 
 ## static arrays
@@ -119,26 +181,6 @@ $list.Add(2)
 $list.Add(3)
 ```
 
-## loops
-
-```ps1
-foreach ($element in $numbers) {
-  $element
-}
-
-for (($i = 0), ($j = 0); $i -lt 10; $i++)
-{
-    "`$i:$i"
-    "`$j:$j"
-}
-
-do {
-} while($true)
-
-while($true) {
-}
-```
-
 ## declare custom objects
 
 ```ps1
@@ -150,6 +192,7 @@ $object | Add-Member -Name 'Name' -MemberType Noteproperty -Value 'Joe'
 ```
 
 # classes
+
 ```ps1
 class Base {
   [Type] $xxx
@@ -163,13 +206,13 @@ class Child: Base {
     Child() : Base() {}
 }
 
-#instancing
+# Instancing
 $a = [Base]::new()
 $b = [Child]::new()
-# type is necessary or Object[] will be used!
+# Array instancing: type is necessary or Object[] will be used!
 [Base[]] $list = @($a, $b)
 
-# print type
+# Print type
 Write-Host ($a.GetType() | Format-Table | Out-String)
 ```
 
@@ -205,10 +248,13 @@ just one
 
 1>&2
 
-# tab char
+# escape char: tab, new line
 
 ```ps1
 ConvertFrom-Csv  .\test.csv -Delimiter "`t"
+
+Write-Host -NoNewLine Say
+Write-Host -NoNewLine Hello`r`n
 ```
 
 # RDP shadow
@@ -387,7 +433,24 @@ Remove-PSSession $session
 Multiple computers (using session)
 
 ```ps1
-Invoke-Command -Session $session { <command [;]> }
+$hostname = "localhost variable"
+# send a function to remote
+$functionDef = ${function:Custom-Function}
+$result = Invoke-Command -Session $session -ScriptBlock {
+  # it will print remote hostname
+  Write-Host $(hostname)
+  # prints: localhost variable
+  Write-Host $using:hostname
+
+  # define Custom-Function
+  ${function:Custom-Function} = $using:functionDef
+  # now you can call it
+  Custom-Function
+  ...
+  Write-Output -NoEnumerate $output
+}
+# $result will hold $output but there are some type changes/conversion
+# for example enum will no longer be "string comparable"
 ```
 
 Single computer execution
