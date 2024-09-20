@@ -19,6 +19,10 @@ $str = "abcdef"; # [String]
 $arr = @(1,2,3) # Object[]
 # class instance 
 $obj = [class]::New(1,2,3) # class
+# array to multiple variables assignament
+$a, $b = "Hello","Bye"
+#declare the variable globally
+$global:xxx = 1
 ```
 
 # string interpolation
@@ -134,13 +138,100 @@ if ( $Service -isnot [System.ServiceProcess.ServiceController] )
 }
 ```
 
+# switch
+
+* multiple matches
+* `continue` will process the next item (`continue` is not `fallthough`)
+* `break` exit switch
+
+
+parameters: -CaseSensitive, -Wildcard, -Regex, -File
+
+```ps1
+# equality
+$day = 3
+$result = switch ( $day )
+{
+    0 { 'Sunday' }
+    # ...
+    6 { 'Saturday' }
+    default { 'Unknown' }
+}
+#contains
+$roles = @('WEB','Database')
+switch ( $roles ) {
+    'Database'   { 'Configure SQL' }
+    'WEB'        { 'Configure IIS' }
+    'FileServer' { 'Configure Share' }
+}
+# string matching (wildcard)
+$Message = 'Warning, out of disk space'
+switch -Wildcard ( $message )
+{
+    'Error*' {}
+    'Warning*' {}
+    default {}
+}
+# regex matching
+switch -Regex ( $message )
+{
+    '^Error' {}
+    '^Warning' {}
+    '(?<SSN>\d\d\d-\d\d-\d\d\d\d)'
+    {
+        Write-Warning "message contains a SSN: $($matches.SSN)"
+    }
+    default {}
+}
+# enum
+enum Context {
+    Component
+    Role
+    Location
+}
+
+$item = [Context]::Role
+switch ($item )
+{
+    ([Context]::Component)
+    {
+        'is a component'
+    }
+    ([Context]::Role)
+    {
+        'is a role'
+    }
+    ([Context]::Location)
+    {
+        'is a location'
+    }
+}
+# case as command
+$age = 37
+
+switch ( $age )
+{
+    {$PSItem -le 18}
+    {
+        'child'
+    }
+    {$PSItem -gt 18}
+    {
+        'adult'
+    }
+}
+```
+
+[https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-switch?view=powershell-7.4](Everything you ever wanted to know about the switch statement)
+
 # loops
 
 ```ps1
-foreach ($element in $numbers) {
+foreach ($element in $collection) {
   $element
 }
 
+for ($i=0; $i -lt 10; $i++) { }
 for (($i = 0), ($j = 0); $i -lt 10; $i++)
 {
     "`$i:$i"
@@ -154,7 +245,7 @@ while($true) {
 }
 ```
 
-# arrays & objects
+# arrays, collections, objects, hashes
 
 ## static arrays
 
@@ -176,16 +267,32 @@ numbers = $numbers | ConvertFrom-Csv -Header value
 
 ```ps1
 $list = [System.Collections.ArrayList]@()
-$list.Add(1)
-$list.Add(2)
-$list.Add(3)
+$list[0]            # Access array element
+$list.Count         # Get array length
+$list.Add($item)    # Add item to array
+$list.Remove($item) # Remove item from array
+
+```
+
+## hashes
+
+```ps1
+$hash = @{
+  key1 = 'value1';
+  key2 = 'value2';
+}
+$hash.key1	                # Access hash key
+$hash.key2 = 'new value'	# Assign value to hash key
+$hash.Add('key3', 'value')	# Add key-value pair
+$hash.Remove('key2')	    # Remove key-value pair
 ```
 
 ## declare custom objects
 
 ```ps1
 # literal
-[pscustomobject]@{hostname="W8120CVROB15";user=$XXX;env=$P;info="RDA"}
+$P = "production"
+[pscustomobject]@{hostname="computer007"; user="James"; env=$P;info="RDA"}
 # iterative
 $object = New-Object -TypeName PSObject
 $object | Add-Member -Name 'Name' -MemberType Noteproperty -Value 'Joe'
@@ -208,6 +315,7 @@ class Child: Base {
 
 # Instancing
 $a = [Base]::new()
+$a -is [Base] # $true
 $b = [Child]::new()
 # Array instancing: type is necessary or Object[] will be used!
 [Base[]] $list = @($a, $b)
