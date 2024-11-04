@@ -626,3 +626,25 @@ s - split the current hunk into smaller hunks
 
     # apply to the current working directory
     git show <sha1> . | git apply -3
+
+## Submodules
+
+Add a submodule to existing git
+
+    git submodule add <url>
+
+Cloning a Project with Submodules
+
+    git submodule update --init --recursive
+
+Update submodules to latest version
+
+    git submodule update --remote --merge
+
+Update submodule 'submodule-xxx' to a specific commit (sha1)
+
+    cd submodule-xxx
+    git checkout <sha1>
+    cd ..
+    git add submodule-xxx
+    git commit -m "??"
