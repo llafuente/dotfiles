@@ -90,6 +90,8 @@ sublime-download-lugin "https://github.com/ahkscript/SublimeAutoHotkey/archive/r
 # Copy as RTF
 sublime-download-lugin "https://github.com/n1k0/SublimeHighlight/archive/refs/heads/python3.zip" "SublimeHighlight-python3" "SublimeHighlight"
 
+sublime-download-lugin "https://github.com/sindresorhus/editorconfig-sublime/archive/refs/heads/main.zip" "editorconfig-sublime-main" "EditorConfig"
+
 sublime-download-lugin "https://github.com/SublimeText/PowerShell/archive/refs/heads/master.zip" "PowerShell-master" "PowerShell"
 ```
 
