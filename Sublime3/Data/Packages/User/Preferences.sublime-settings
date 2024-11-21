@@ -3,6 +3,7 @@
 	[
 		"node_modules/**"
 	],
+	"file_exclude_patterns": ["*.ahk.bak"],
 	"draw_white_space": "all",
 	"show_line_endings": true,
 	"show_encoding": true,
@@ -11,7 +12,8 @@
 	"ensure_newline_at_eof_on_save": true,
 	"folder_exclude_patterns":
 	[
-		"node_modules"
+		"node_modules",
+		".git"
 	],
 	"font_face": "Anonymous Pro",
 	"font_size": 14,
@@ -21,7 +23,8 @@
 	],
 	"index_exclude_patterns":
 	[
-		"node_modules"
+		"node_modules",
+		".git"
 	],
 	"rulers":
 	[
