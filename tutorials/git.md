@@ -637,6 +637,23 @@ Cloning a Project with Submodules
 
     git submodule update --init --recursive
 
+Cloning a Project with Submodules but change https to ssh or ssh to https.
+
+Edit git/config and search you submodule config.
+
+```
+[submodule "XXX"]
+	active = true
+	url = git@github.com:githubuser/githubreponame.git
+```
+Change to (or viceversa)
+```
+[submodule "XXX"]
+	active = true
+	url = http://github.com/githubuser/githubreponame.git
+```
+
+
 Update submodules to latest version
 
     git submodule update --remote --merge
@@ -648,3 +665,4 @@ Update submodule 'submodule-xxx' to a specific commit (sha1)
     cd ..
     git add submodule-xxx
     git commit -m "??"
+
