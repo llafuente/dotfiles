@@ -119,6 +119,71 @@ git clone --depth 1 --branch python3 https://github.com/n1k0/SublimeHighlight.gi
 git clone --depth 1 https://github.com/SublimeText/PowerShell.git PowerShell
 ```
 
+# vscode
+
+```
+choco install -y vscode.install
+
+code --install-extension MS-vsliveshare.vsliveshare
+
+code --install-extension ms-python.python
+code --install-extension ms-toolsai.jupyter
+```
+
+# Visual studio
+
+Needed for pytorch.compile
+
+(as admin)
+```ps1
+choco install visualstudio2022community --package-parameters "--add Microsoft.VisualStudio.Workload.MSBuildTools;includeRecommended --add Microsoft.VisualStudio.Workload.VCTools;includeRecommended"
+```
+
+Use: `Developer Command Prompt for VS 2022`, to run any application that need build tools.
+
+# python
+
+Multiple python support
+
+```ps1
+Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/pyenv-win/pyenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
+```
+
+close and open
+
+```
+pyenv.bat install 3.13.0
+pyenv.bat install 3.12.7
+pyenv.bat install 3.11.9
+pyenv.bat install 3.10.11
+```
+
+Change version
+
+```
+pyenv envname
+pyenv local 3.11.9
+pyenv local 3.12.7
+```
+
+## buildtolls / pytorch.compile
+
+Build packages/compile (those that require cl.exe)
+
+x32
+
+> Open: Developer Command Prompt for VS 2022
+
+x64
+
+> Open: x64 Native Tools Command Prompt for VS 2022
+
+```cmd
+pyenv local 3.?.?
+
+code
+```
+
 # Others: Chrome, Firefox
 
 ```
@@ -127,7 +192,6 @@ choco install -y firefox
 choco install -y 7zip.install
 choco install -y vlc
 choco install -y virtualbox
-choco install -y vscode
 choco install -y sourcetree
 choco install -y javaruntime
 choco install -y python2
