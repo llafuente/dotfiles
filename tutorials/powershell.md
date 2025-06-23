@@ -17,7 +17,7 @@ $number.getType() # Int32
 $number.getType() # Single
 $str = "abcdef"; # [String]
 $arr = @(1,2,3) # Object[]
-# class instance 
+# class instance
 $obj = [class]::New(1,2,3) # class
 # array to multiple variables assignament
 $a, $b = "Hello","Bye"
@@ -66,6 +66,41 @@ Write-Host "$($(Get-ChildItem)[0])"
 Write-Host "$($(Get-ChildItem)[0].Name)"
 ```
 
+## Discovering objects, properties, and methods
+
+More: https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/03-discovering-objects?view=powershell-7.4
+
+```ps1
+# list all members
+$obj | Get-Member
+
+# list members by type
+$obj | Get-Member -MemberType Method
+$obj | Get-Member -MemberType Property
+# MemberType: AliasProperty | CodeProperty | Property | NoteProperty | ScriptProperty | Properties | PropertySet | Method | CodeMethod | ScriptMethod | Methods | ParameterizedProperty | MemberSet | Event | Dynamic | All}
+
+# Filter properties
+$obj | Select-Object -Property a,b,c
+$obj | Select-Object -Property get*
+```
+
+# string
+
+## single line
+
+```ps1
+$str = "hello world"
+# escape
+$str = "`r`n"
+```
+## multi line
+```ps1
+$str = @'
+Here you can type whatever!
+new lines allowed!
+'@
+```
+
 # if
 
 More: https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-if?view=powershell-7.4
@@ -87,7 +122,7 @@ More: https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/ev
 | -le, -ile | less or equal than case insensitive               |
 | -cle      | less or equal than case sensitive                 |
 
-## like 
+## like
 | operators           | Description                             |
 | ------------------- | --------------------------------------- |
 | -like, -ilike       | case-insensitive wildcard               |
@@ -124,7 +159,7 @@ if ( $value -match '^S.*$')
 }
 ```
 
-## type 
+## type
 
 | operators             | Description                           |
 | --------------------- | ------------------------------------- |
@@ -231,6 +266,14 @@ foreach ($element in $collection) {
   $element
 }
 
+foreach ($h in $hash.GetEnumerator()) {
+    Write-Host "$($h.Name): $($h.Value)"
+}
+# NoteProperty | Property | whatever!
+foreach ($h in $sourceRdaJson | Get-Member -MemberType NoteProperty) {
+    Write-Host "$($h.Name): $($sourceRdaJson.$h)"
+}
+
 for ($i=0; $i -lt 10; $i++) { }
 for (($i = 0), ($j = 0); $i -lt 10; $i++)
 {
@@ -269,7 +312,7 @@ numbers = $numbers | ConvertFrom-Csv -Header value
 $list = [System.Collections.ArrayList]@()
 $list[0]            # Access array element
 $list.Count         # Get array length
-$list.Add($item)    # Add item to array
+$list.Add($item)    # (push / append) Add item to array
 $list.Remove($item) # Remove item from array
 
 ```
@@ -579,12 +622,41 @@ Copy-Item "<from-local>" -Destination "<to-remote>" -ToSession $session
 Copy-Item "<from-remote>" -Destination "<to-local>" -FROMSession $session
 ```
 
+## Execute remote as task
+
+Some commands shall be executed in the interactive session, for those you create a sheduler task and execute
+
+```ps1
+$Process = Invoke-Command -ComputerName "ComputerName" -ScriptBlock {
+
+    $script = @"
+
+    `$Process = Get-Process | Select-Object Name, MainWindowTitle
+
+    `$Process | Export-Csv "`$(`$env:TMP)\process.csv" -NoTypeInformation
+"@
+
+    $script | Out-File "C:\Users\username\documents\process.ps1"
+
+    $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument `
+    '-WindowStyle Hidden -file "C:\Users\username\documents\process.ps1"'
+
+    Register-ScheduledTask -TaskName Get-Services -Action $action | Start-ScheduledTask
+    Start-Sleep -Seconds 10
+    Unregister-ScheduledTask -TaskName Get-Services -Confirm:$False
+    $Process = Import-Csv "$($env:TMP)\process.csv"
+    Get-ChildItem "C:\Users\username\documents\" | Remove-Item -Recurse
+    $Process
+
+}
+```
+
 # Check promnt has administrator priviledges / is admin
 
 ```ps1
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-```ps1
+```
 
 # Force my script to require admin priviledges
 
@@ -594,3 +666,20 @@ https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/ab
 #Requires -RunAsAdministrator
 ```
 
+# Active directory / kerberos / login / session information
+
+Asorted information
+
+```ps1
+[System.DirectoryServices.ActiveDirectory.Domain]::GetComputerDomain()
+[System.Security.Principal.WindowsIdentity]::GetCurrent()
+```
+
+# rtf -> clipboard
+
+```ps1
+Add-Type -AssemblyName "System.Windows.Forms" | Out-Null
+$contents = (Get-Content -Raw "C:\path\to\file.rtf")
+
+[Windows.Forms.Clipboard]::SetDataObject([Windows.Forms.DataObject]::new([Windows.Forms.DataFormats]::Rtf,$contents))
+```

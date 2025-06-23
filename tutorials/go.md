@@ -9,6 +9,33 @@ Meant to developer (from other languages) migration guide.
 https://play.golang.org/
 
 
+# Proxy
+
+*Insecure proxy*. Go do not allow to send credentials to insecure proxies.
+
+A
+```
+set http_proxy=http://127.0.0.1:8999
+set https_proxy=http://127.0.0.1:8999
+```
+
+B
+```
+set GOPROXY=http://127.0.0.1:8999
+```
+
+# Compile
+
+```cmd
+go mod tidy # optional
+go mod download
+
+go build main.go
+
+# cross-compile with version at given arch
+cross-env GOARCH=386 go build -ldflags "-X main.Version=x.y.z" main.go
+```
+
 # Var declaration
 
 ```go

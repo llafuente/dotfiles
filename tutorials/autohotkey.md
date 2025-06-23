@@ -4,6 +4,70 @@ https://www.autohotkey.com/docs/KeyList.htm
 
 https://project-awesome.org/ahkscript/awesome-AutoHotkey#clipboard
 
+# local, global, ?
+
+
+```ahk
+#Warn All, StdOut
+
+xxx() {
+  throw Exception("xxx")
+}
+
+e =: 1
+
+step1() {
+  try {
+    xxx()
+  } catch e {
+
+  }
+}
+
+
+```
+
+
+# Commands vs Functions
+
+```ahk
+StringLeft, OutputVar, InputVar, Count
+
+NewString := LTrim(String , OmitChars)
+```
+
+```ahk
+input := "xxx"
+; output is a variable
+; input is a variable
+StringLeft, output, input, 2
+
+; output is a variable
+; input is a variable but it's an expression
+StringLeft, output, % input, 2
+
+
+; output is a variable
+; input is a variable (indirection) with the value of input -> xxx
+xxx := "yyy"
+StringLeft, output, %input%, 2
+
+; indirection don't work on some commands
+arr_1 := 1
+arr_2 := 2
+arr_3 := 3
+
+loop 3 {
+  val := "arr_" . A_Index
+  ival := %val%
+  msgbox %val%
+  msgbox %ival%
+}
+
+```
+
+
+
 # Arrays
 
 ```autohotkey

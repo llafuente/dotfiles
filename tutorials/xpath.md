@@ -1,6 +1,18 @@
 # xpath
 
 
+## Operators
+
+| Operator | Explanation                                                   |
+| -------- | ------------------------------------------------------------- |
+| =        | Equivalent comparison, can be used for numeric or text values |
+| !=       | Is not equivalent comparison                                  |
+| >, >=    | Greater than, greater than or equal to                        |
+| <, <=    | Less than, less than or equal to                              |
+| or       | Boolean or                                                    |
+| and      | Boolean and                                                   |
+| not      | Boolean not                                                   |
+
 ## Selection (axes)
 
 ### self
@@ -23,6 +35,22 @@
 
     @
 
+### siblings to the right
+
+    following-sibling::
+
+### siblings to the left
+
+    preceding‐sibling::
+
+### All following nodes in the document, excluding descendants
+
+    following::
+
+### All preceding nodes in the document, excluding ancestors • attribute ‐‐ the attributes of the context node
+
+    preceding::
+
 ## select by tagName
 
     //input
@@ -35,11 +63,13 @@ full match
 
     //*[@class = 'cls')]"
 
-partial match
+normalized partial match
 
     //*[contains(concat(' ', normalize-space(@class), ' '), ' cls ')]"
 
-## select by text
+## select by text (In-text search)
+
+NOTE: user `.` for current text, `normalize-space()` for current text normalized
 
 full match
 
@@ -56,6 +86,11 @@ right match
 partial match
 
     //*[contains(normalize-space(), 'text')]"
+
+regular expression match
+
+    //author[matches(.,"Matt.*")]
+
 
 ## select by attribute
 
@@ -78,6 +113,14 @@ by id
 ## select nth element
 
     (//*)[n]
+
+## select by position
+
+    (//*)[position() < 3]
+
+## select any attribute with value
+
+    //*[@*="value"]
 
 ## select element with no attributes
 
